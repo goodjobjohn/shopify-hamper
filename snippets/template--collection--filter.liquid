@@ -1,0 +1,18 @@
+<div class="filter">
+  {% if collection.all_tags.size > 0 %}
+    <form>
+      <span class="title">{{ 'collections.tags_title' | t }}</span>
+      <select class="tags-listbox compact" name="coll-filter">
+        <option value="">{{ 'collections.tags_show_all' | t }}</option>
+        {% for tag in collection.all_tags %}
+{%- include 'bold-product' with tag, hide_action: 'skip' -%}
+        {% if current_tags contains tag %}
+        <option value="{{ tag | handleize }}" selected>{{ tag }}</option>
+        {% else %}
+        <option value="{{ tag | handleize }}">{{ tag }}</option>
+        {% endif %}
+        {% endfor %}
+      </select>
+    </form>
+  {% endif %}
+</div>

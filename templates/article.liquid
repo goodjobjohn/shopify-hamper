@@ -1,0 +1,128 @@
+{% paginate article.comments by 12 %}
+
+<div class="spacing--4y"></div>
+
+<div class="fw--blocks spacing--5 spacing--small-3">
+
+  <div class="left-column width--medium-4 font--size-2 show--medium-large">
+
+    <div><strong class="font--accent">{{ 'blog.article.date' | t }}</strong>
+    <div class="spacing--1y">{{ article.published_at | date: format: 'month_day_year' }}</div></div>
+    <div class="spacer spacing--3y"></div>
+
+    <div><strong class="font--accent">{{ 'blog.article.written_by' | t }}</strong>
+      <div class="spacing--1y">{{ article.author }}</div>
+    </div>
+    <div class="spacer spacing--3y"></div>
+
+    {% if settings.social--sharing-blog %}
+      <div>
+        <strong class="font--accent">{{ 'general.social.blog_title' | t }}</strong>
+        <div class="spacer spacing--1y"></div>
+        {% include 'partial--social-media' with 'blog' %}
+      </div>
+    {% endif %}
+
+    <div class="spacer spacing--3y"></div>
+    <div class="divider spacing--2y"></div>
+    <a href="{{ blog.url }}" class="font--accent" >
+      {% include 'snippet-symbol' with 'arrow-left' %}
+      {{ 'blog.article.back_to_blog' | t }}
+    </a>
+
+    {% if blog.all_tags.size > 0 %}
+      <div class="spacing--3y"></div>
+      <div class="divider spacing--3y"></div>
+      <h4 class="font--size-2 font--accent">{{ 'blog.sidebar.tags' | t }}</h4>
+      <ul class="tags fw--blocks list spacing--3 compact--3x colored-links">
+        <li class="item{% unless current_tags %} active{% endunless %}"><a href="{{ shop.url}}/blogs/{{ blog.handle }}">{{ 'blog.sidebar.tags_show_all' | t }}</a></li>
+        {% for tag in blog.all_tags %}
+          {% if current_tags contains tag %}
+          <li class="item active">{{ tag | link_to_remove_tag: tag }}</li>
+          {% else %}
+          <li class="item">{{ tag | link_to_add_tag: tag }}</li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+  </div>
+
+  <div class="width--medium-8">
+    <div class="spacing--3x">
+      <div class="show--small">
+        <a href="{{ blog.url }}" class="font--accent" >
+          {% include 'snippet-symbol' with 'arrow-left' %}
+          {{ 'blog.article.back_to_blog' | t }}
+        </a>
+        <div class="spacer spacing--4y"></div>
+      </div>
+
+      <article>
+        <a href="{{ article.url }}"><h1 class="title font--heading">{{ article.title }}</h1></a>
+        <div class="spacer spacing--3y"></div>
+        {% if article.image %}
+          <div class="feature-image">
+            {{ article.image | article_img_url: '1024x1024' | img_tag }}
+          </div>
+          <div class="spacer spacing--3y"></div>
+        {% endif %}
+        <div class="content colored-links rte-content">{{ article.content }}</div>
+      </article>
+
+      <div class="show--small">
+        <div class="spacer spacing--5y"></div>
+        {% if settings.social--sharing-blog %}
+          <div>
+            <strong class="font--accent">{{ 'general.social.blog_title' | t }}</strong>
+            <div class="spacer spacing--1y"></div>
+            {% include 'partial--social-media' with 'blog' %}
+          </div>
+        {% endif %}
+      </div>
+
+
+      {% if article.tags.size > 0 %}
+        <div class="spacer spacing--5y"></div>
+        <ul class="fw--blocks list colored-links spacing--4y">
+          <li>
+            <span class="font--accent">{{ 'blog.article.tags' | t }}</span>
+            {% for tag in article.tags %}
+              <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="text-link">{{ tag }}</a>
+            {% endfor %}
+          </li>
+        </ul>
+      {% endif %}
+
+      <div class="article-nav font--accent">
+        <div class="spacer spacing--5y"></div>
+        {% if blog.previous_article %}
+          <span class="left">
+            <a class="text-colored" href="{{ blog.previous_article }}">
+              {% include 'snippet-symbol' with 'arrow-left' %}
+              {{ 'blog.article.previous' | t }}
+            </a>
+          </span>
+        {% endif %}
+
+        {% if blog.next_article %}
+          <span class="right">
+            <a class="text-colored" href="{{ blog.next_article }}">
+            {{ 'blog.article.next' | t }}
+            {% include 'snippet-symbol' with 'arrow-right' %}
+            </a>
+          </span>
+        {% endif %}
+      </div>
+
+      <div class="spacing--3y"></div>
+      <div class="divider spacing--3y"></div>
+      {% include 'template--article--comments' %}
+    </div>
+
+
+  </div>
+
+</div>
+
+{% endpaginate %}

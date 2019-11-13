@@ -1,0 +1,9 @@
+{% comment %} If there are some variants available i.e. not all are sold out {% endcomment %}
+{% if product.available %}
+  <div class="product-unavailable spacing--3x font--size-1">
+    {% if product.variants.size > 1  %}
+      <p class="error">{{ 'products.sold_out.variant' | t }}</p>
+    {% endif %}
+  </div>
+{% endif %}
+

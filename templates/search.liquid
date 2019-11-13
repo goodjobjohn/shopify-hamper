@@ -1,0 +1,12 @@
+{% paginate search.results by 36 %}
+
+  {% include 'framework--search' with 'page' %}
+
+  {% if paginate.pages > 1 %}
+    <div class="width--12 text-align--center">
+      {% include 'framework--pagination' %}
+    </div>
+    <div class="spacing--3y"></div>
+  {% endif %}
+
+{% endpaginate %}

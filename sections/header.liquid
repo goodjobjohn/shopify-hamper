@@ -1,0 +1,96 @@
+<header
+  class="layout--header spacing--5x logo--height-{{ section.settings.logo-height }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="header"
+  data-js-class="Header"
+>
+
+  <noscript>
+    <div class="container">
+      <div class="left-side">
+        {% include 'framework--logo' %}
+        {% include 'partial--main-menu' %}
+      </div>
+      <div class="right-side fw--align--right">
+        <a style="padding: 0 15px;" href="{{ shop.url}}/cart">{{ 'cart.title' | t }}</a>
+      </div>
+    </div>
+  </noscript>
+
+  <div class="container show-after-js">
+    <div class="left-side">
+      {% include 'framework--logo' %}
+      {% include 'partial--main-menu' %}
+    </div>
+
+    <div class="right-side fw--align--right">
+      {% include 'layout--login' %}
+      {% include 'partial--popup' %}
+      {% include 'framework--cart' %}
+      {% include 'layout--minimized-menu' %}
+    </div>
+  </div>
+
+</header>
+
+<style>
+  header .fw--logo img {
+    height: {{ section.settings.logo-height }}px;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image",
+      "info": "200px high recommended"
+    },
+    {
+      "type": "select",
+      "id": "logo-height",
+      "label": "Custom logo height",
+      "options": [
+        {
+          "value": "15",
+          "label": "15px - Inline logo"
+        },
+        {
+          "value": "20",
+          "label": "20px - Inline logo"
+        },
+        {
+          "value": "25",
+          "label": "25px - Inline logo"
+        },
+ 		{
+          "value": "49",
+          "label": "49px - Inline logo"
+        },
+        {
+          "value": "50",
+          "label": "50px - Overflowing logo"
+        },
+        {
+          "value": "75",
+          "label": "75px - Overflowing logo"
+        },
+        {
+          "value": "100",
+          "label": "100px - Overflowing logo"
+        }
+      ],
+      "default": "75"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

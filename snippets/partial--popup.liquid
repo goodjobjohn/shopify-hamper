@@ -1,0 +1,77 @@
+{% unless template contains 'password' %}
+
+  {% assign enabled = settings.popup--enabled %}
+  {% assign show-image = settings.popup--show-image %}
+  {% assign newsletter-enabled = settings.popup--newsletter--enabled %}
+  {% assign newsletter-title = settings.popup--newsletter-title | escape %}
+  {% assign social-enabled = settings.popup--social-enabled %}
+  {% assign social-title = settings.popup--social-title | escape %}
+  {% assign days = settings.popup--days %}
+
+  {% if enabled %}
+    <div
+      class="popup"
+      data-show-again-after="{{ settings.popup--days }}"
+      data-mode="{{ settings.popup--mode }}"
+      data-popup--image="{{ show-image }}"
+      data-js-class="Popup"
+    >
+
+      <button class="popup--open button--link">{{ 'layout.header.follow' | t }}</button>
+
+      <div class="popup--container popup--closed">
+        <div class="popup--wrapper">
+
+          {% if settings.popup--show-image %}
+            <div class="popup--left-column">
+              {% if settings.popup--image %}
+                <img
+                  class="popup--image"
+                  src="{{ settings.popup--image | img_url: 'x450'  }}"
+                  alt="{{ settings.popup--image.alt }}"
+                >
+              {% else %}
+                {%
+                  include "framework--placeholder",
+                  type: "image",
+                  aspect_ratio: "600x800"
+                  custom_classes: "full-height popup--image"
+                %}
+              {% endif %}
+            </div>
+          {% endif %}
+
+          <div class="popup--center-column">
+            {% if newsletter-title.size > 0 %}
+              <h3 class="popup--newsletter-title">{{ newsletter-title }}</h3>
+            {% endif %}
+
+            {% if newsletter-enabled %}
+              <div class="popup--newsletter-form">
+                {% include 'partial--mailing-list' with 'popup' %}
+              </div>
+            {% endif %}
+          </div>
+
+          {% if social-enabled %}
+            <div class="popup--right-column">
+              {% if newsletter-title.size > 0 %}
+                <h3 class="popup--social-title">{{ social-title }}</h3>
+              {% endif %}
+
+                <div class="popup--social-icons">
+                  {% include 'partial--social-media' with 'modal' %}
+                </div>
+            </div>
+          {% endif %}
+
+          <button aria-label="{{ 'popup.close' | t }}" class="popup--close button--link">
+            {% include 'snippet-symbol' with 'cross' %}
+          </button>
+        </div>
+      </div>
+    </div>
+
+  {% endif %}
+
+{% endunless %}

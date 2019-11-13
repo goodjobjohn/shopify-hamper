@@ -1,0 +1,71 @@
+  {% assign count = 0 %}
+  <div class="fw--blocks">
+    {% for collection in collections %}
+{%- include 'bold-product' with collection, hide_action: 'skip' -%}
+      {% unless collection.handle == 'all' or collection.handle == 'all-products' or collection.handle == 'frontpage' %}
+
+        <div class="collection-item spacing--3 text-align--center">
+          <a href="{{ collection.url }}">
+            <div class="image-wrapper">
+              <div class="hover"></div>
+              {% if collection.image %}
+                {{ collection.image.src | collection_img_url: 'large' | img_tag: collection.image.alt }}
+              {% elsif collection.products.size > 0 %}
+                {{ collection.products.first.featured_image.src | product_img_url: 'large' | img_tag: collection.title }}
+              {% endif %}
+            </div><!-- .coll-image-wrap -->
+            <div class="caption text-align--center">
+              <div class="bg"></div>
+              <div class="inner">
+                <div class="title spacing--2y">
+                  {{ collection.title }}
+                </div>
+                {% assign trans_product = 'collections.product' | t %}
+                {% assign trans_products = 'collections.products' | t %}
+                <p class="product-count">{{ collection.all_products_count }} {{ collection.all_products_count | pluralize: trans_product, trans_products }}</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        {% assign count = count | plus: 1 %}
+      {% endunless %}
+    {% endfor %}
+  </div>
+
+  {% if count == 0 %}
+
+    {% assign collections_title = 'collections.placeholder.collection_title' | t %}
+
+    <div class="add-first-collection columns large-6 text-align--center spacing--4y clearfix">
+      <p>{{ 'collections.no_collections_feedback_html' | t }}</p>
+      <a class="button" href="/admin/collections">{{ 'collections.no_collections_link' | t }}</a>
+    </div><!-- #add-first-collection-->
+
+    <div class="add-first-collection columns fw--blocks" class="clearfix">
+      {% for i in (1..6) %}
+
+        <div class="collection-item spacing--3 width--medium-6 text-align--center">
+
+          <div class="image-wrapper">
+            {% include "framework--placeholder",
+            type: "collection",
+            aspect_ratio: "800x600",
+            placeholder_index: i %}
+          </div>
+
+          <div class="caption text-align--center">
+            <div class="bg"></div>
+            <div class="inner">
+              <div class="title spacing--2y">
+                {{ collections_title }}
+              </div>
+              <p class="product-count">{{ 'collections.placeholder.num_items' | t }}</p>
+            </div>
+          </div>
+
+        </div>
+
+      {% endfor %}
+    </div>
+  {% endif %}

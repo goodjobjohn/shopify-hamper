@@ -1,0 +1,84 @@
+{% comment %} Sub Menu Syntax: Main Menu > Catalog > Mens {% endcomment %}
+{% assign layout = partial--main-menu %}
+{% if layout == 'modal' %}
+
+  <div class="partial--main-menu vertical" data-js-class="PartialMainMenu">
+    <nav role="navigation" class="clearfix">
+      <ul class="fw--blocks list level-1 vertical spacing--4y compact">
+        {% for link_l1 in linklists[section.settings.menu].links %}
+          <li class="item">
+            <a href="{{ link_l1.url }}">
+              {{ link_l1.title }}
+            </a>
+
+            {% assign tiers_l2 = link_l1.title | downcase | strip | replace: ' ', '' %}
+            {% for linklist_l2 in linklists %}
+
+              {% assign linklist_l2_title = linklist_l2.title | downcase | strip | replace: ' ', '' %}
+
+              {% if tiers_l2 == linklist_l2_title %}
+                <ul class="fw--blocks list level-2 spacing--4y vertical">
+                  {% for link_l2 in linklist_l2.links %}
+                    <li class="item ">
+                      <a href="{{ link_l2.url }}">
+                        {{ link_l2.title }}
+                      </a>
+
+                    {% comment %} Close level 2 {% endcomment %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            {% endfor %}
+
+          {% comment %} Close level 1 {% endcomment %}
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+  </div>
+
+
+{% else %}
+
+<div class="partial--main-menu horizontal" data-js-class="PartialMainMenu">
+  <nav role="navigation" class="clearfix">
+    <ul class="fw--blocks list level-1">
+      {% for link_l1 in linklists[section.settings.menu].links %}
+        <li class="item">
+          <a href="{{ link_l1.url }}">
+            {{ link_l1.title }}
+          </a>
+
+          {% assign tiers_l2 = link_l1.title | downcase | strip | replace: ' ', '' %}
+          {% for linklist_l2 in linklists %}
+            {% assign linklist_l2_title = linklist_l2.title | downcase | strip | replace: ' ', '' %}
+            {% if tiers_l2 == linklist_l2_title %}
+
+              <ul class="fw--blocks list vertical level-2 spacing--3x spacing--3y {% if linklist_l2.links.size > 20 %}two-columns{% endif %}">
+                {% for link_l2 in linklist_l2.links %}
+
+                  <li class="item">
+                    <a class="" href="{{ link_l2.url }}">
+                      {{ link_l2.title }}
+                    </a>
+
+                  {% comment %} Close level 2 {% endcomment %}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          {% endfor %}
+
+        {% comment %} Close level 1 {% endcomment %}
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+
+  <div class="sub_menu_panel"></div>
+
+</div>
+
+{% endif %}

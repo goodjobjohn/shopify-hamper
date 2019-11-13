@@ -1,0 +1,57 @@
+{% comment %} Sub Menu Syntax: Main Menu > Catalog > Mens {% endcomment %}
+
+<div class="layout--mobile-menu">
+  <nav role="navigation">
+    <ul class="list level-1 spacing--5x">
+      {% assign tiers_l1 = "mainmenu" %}
+      {% for link_l1 in linklists[section.settings.menu].links %}
+        <li class="item">
+          <a href="{{ link_l1.url }}">
+            {{ link_l1.title }}
+          </a>
+
+          {% assign tiers_l2 = tiers_l1 | append: '>' | append: link_l1.title | downcase | replace: ' ', '' %}
+          {% for linklist_l2 in linklists %}
+            {% assign linklist_l2_title = linklist_l2.title | downcase %}
+            {% if tiers_l2 == linklist_l2_title %}
+              <ul class="list level-2 spacing--6x">
+                {% for link_l2 in linklist_l2.links %}
+                  <li class="item ">
+                    <a class="spacing--3y" href="{{ link_l2.url }}">
+                      {{ link_l2.title }}
+                    </a>
+
+                    {% assign tiers_l3 = tiers_l2 | append: '>' | append: link_l2.title | downcase | replace: ' ', '' %}
+                    {% for linklist_l3 in linklists %}
+                      {% assign linklist_l3_title = linklist_l3.title | downcase %}
+                      {% if tiers_l3 == linklist_l3_title %}
+                        <ul class="list level-3 spacing--3y vertical">
+                          {% for link_l3 in linklist_l3.links %}
+                            <li class="item">
+                              <a href="{{ link_l3.url }}">
+                                {{ link_l3.title }}
+                              </a>
+
+                            {% comment %} Close level 3 {% endcomment %}
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    {% endfor %}
+
+                  {% comment %} Close level 2 {% endcomment %}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          {% endfor %}
+
+        {% comment %} Close level 1 {% endcomment %}
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+
+  <div class="sub_menu_panel"></div>
+
+</div>

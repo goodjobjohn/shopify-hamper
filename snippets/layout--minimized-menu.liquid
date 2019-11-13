@@ -1,0 +1,35 @@
+<div class="layout--minimized-menu">
+
+  <span>
+    <a class="cart-count font--accent {% if settings.cart--type == 'modal' %}fw--cart-modal--trigger-render{% endif %}" href="{{ shop.url }}/cart"><span class="count">{{ cart.item_count }}</span></a>
+  </span>
+
+
+  <span class="modal" data-js-class="FrameworkModal">
+    <button class="modal--link">
+      {% include 'snippet-symbol' with 'menu' %}
+    </button>
+
+    <div class="layout--minimized-menu--modal modal--content spacing--4 text-align--center">
+      {% include 'partial--main-menu' with 'modal' %}
+
+      <div class="spacing--5y font--accent">
+        {% include 'layout--login' with 'modal' %}
+        <a href="{{ shop.url}}/cart">{{ 'cart.title' | t }}</a>
+      </div>
+
+      {% if settings.popup--enabled %}
+        {% if settings.popup--newsletter--enabled %}
+          <div class="newsletter-wrapper spacing--3y">
+            {% include 'partial--mailing-list'  %}
+          </div>
+        {% endif %}
+        {% if settings.popup--social-icons--enabled %}
+          {% include 'partial--social-media' with 'modal' %}
+        {% endif %}
+      {% endif %}
+
+    </div>
+  </span>
+
+</div>

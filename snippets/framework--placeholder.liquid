@@ -1,0 +1,18 @@
+{% capture placeholder_classes %} placeholder
+  {% if aspect_ratio %}with-transparent{% endif %}
+  {% if custom_classes %} {{ custom_classes }}{% endif %}
+{% endcapture %}
+
+<div class="{{ placeholder_classes }}">
+  {% if aspect_ratio %}
+    {% capture filename %}transparent-{{aspect_ratio}}.png{% endcapture %}
+    <img src="{{ filename | asset_url }}" alt="" aria-hidden="true">
+  {% endif %}
+
+  {% if placeholder_index %}
+    {% capture ith_item %}{{type}}-{{placeholder_index}}{% endcapture %}
+    {{ ith_item | placeholder_svg_tag }}
+  {% else %}
+    {{ type | placeholder_svg_tag }}
+  {% endif %}
+</div>

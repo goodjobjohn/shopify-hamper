@@ -1,0 +1,56 @@
+{% if collection == null or collection.handle == 'frontpage' or collection.handle == 'all' %}
+  {% assign found_a_collection = false %}
+  {% for c in product.collections %}
+    {% if found_a_collection == false and c.handle != 'frontpage' and c.handle != 'all' %}
+      {% assign found_a_collection = true %}
+      {% assign collection = c %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if collection.products.size > 1 %}
+  <div class="related-collection partial--fullscreen-panel">
+
+    <div class="header text-align--center spacing--4y">
+      <a href="{{ collection.url }}"><h3 class="font--heading">{{ collection.title }}</h3></a>
+    </div>
+
+    <div
+      class="fw--slider"
+      data-js-class="FrameworkSlider"
+      data-navigation="true"
+      data-pagination="true"
+      data-pagination-numbers="true"
+    >
+      {% assign current_product_handle = product.handle %}
+      {% for product in collection.products limit: 6 %}
+{%- include 'bold-product' with product, hide_action: 'skip' -%}
+        {% if product.handle == current_product_handle %}
+          {% continue %}
+        {% endif %}
+
+        <div class="slide fw--blocks">
+          <div class="wrapper text-align--center partial--product">
+            {% assign image = product.images[0] %}
+            <a class="dynamic-y" href="{{ product.url | within: collection  }}" title="{{ product.title }}">
+              <img src="{{ image.src | product_img_url: '1024x1024' }}" rel="gallery" data-image-id="{{ image.id }}" />
+            </a>
+            <div class="text-panel fixed-y">
+              <h2 class="title spacing--3y font--subheading">{{ product.title }}</h2>
+              <a class="button" href="{{ product.url }}">{{ 'home.more_details' | t }}</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+
+      <div class="slide">
+        <div class="fixed-y"></div>
+        <div class="dynamic-y">
+          <div class="text-panel text-align--center fw--align--center-y">
+            <a class="button" href="{{ collection.url }}">{{ 'home.view_collection' | t }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}

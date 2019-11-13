@@ -1,0 +1,195 @@
+
+<div class="wrapper">
+  <div class="panel">
+    {% if cart.item_count > 0 %}
+    
+     
+
+      <div>
+        <form action="/cart" method="post" novalidate="" class="">
+          <div class="content fw--blocks spacing--2y">
+            {% for item in cart.items %}
+              <div class="variant-id width--12 {% if forloop.last %}last-variant{% endif %}" data-variant-id="{{ item.variant_id }}">
+
+                <div class="width--12 width--medium-4 width--large-6 block">
+                  <span class="image block width--4 width--medium-12 width--large-4 spacing--3">
+                    <a href="{{ item.url | within: collections.all }}">
+                      <img src="{{ item | img_url: 'medium' }}" alt="{{ item.title | escape }}" />
+                    </a>
+                  </span>
+                  <span class="title block width--8 spacing--3 font--size-4 show--small show--large">
+                    <a href="{{ item.url }}">{{ item.title }}</a>
+
+                    {% assign property_size = item.properties | size %}
+                    <span class="Bold-theme-hook-DO-NOT-DELETE bold_cart_item_properties" style="display:none !important;"></span>{% if property_size > 0 %}
+                      {% for p in item.properties %}
+				{%- if p.first.first == '_' -%}{%- continue -%}{%- endif -%}
+                        {% unless p.last == blank %}
+                          {{ p.first }}:
+                    
+          
+
+                          {% comment %}
+                            Check if there was an uploaded file associated
+                          {% endcomment %}
+                          {% if p.last contains '/uploads/' %}
+                            <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+                          {% else %}
+                            {{ p.last }}
+                          {% endif %}
+
+                          <br>
+                        {% endunless %}
+                      {% endfor %}
+                    {% endif %}
+
+                  </span>
+                </div>
+                
+                   
+
+                <div class="right-column width--12 width--medium-8 width--large-6 block spacing--3y text-align--left text-align--large-right">
+
+              
+                  
+                  <span class="title block width--12 spacing--3 font--size-4 show--medium text-align--left">
+                    <a href="{{ item.url }}">{{ item.title }}</a>
+
+                    {% assign property_size = item.properties | size %}
+                    {% if property_size > 0 %}
+                      {% for p in item.properties %}
+				{%- if p.first.first == '_' -%}{%- continue -%}{%- endif -%}
+                        {% unless p.last == blank %}
+                          {{ p.first }}:
+
+                          {% comment %}
+                            Check if there was an uploaded file associated
+                          {% endcomment %}
+                          {% if p.last contains '/uploads/' %}
+                            <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+                          {% else %}
+                            {{ p.last }}
+                          {% endif %}
+
+                          <br>
+                        {% endunless %}
+                      {% endfor %}
+                    {% endif %}
+                  </span>
+
+                  <span class="price spacing--3 font--size-3 money"><span class="Bold-theme-hook-DO-NOT-DELETE bold_cart_item_price" style="display:none !important;"></span>{{ item.price | money }}</span>
+                  <span class="quantity spacing--3">
+                    <div class="input--number">
+                      <input type="text" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" min="1" pattern="[1-9]*" />
+                    </div>
+                  </span>
+                  <span class="remove spacing--3">
+                    <a
+                      href="/cart/change?line={{ forloop.index }}&quantity=0"
+                      aria-hidden="true"
+                      class="cart--remove-button remove"
+                      aria-label="{{ 'cart.remove_item' | t }}">
+                      {% include 'snippet-symbol' with 'cross-circle' %}
+                    </a>
+                  </span>
+                </div>
+              </div>
+              <div class="spacer spacing--3y"></div>
+            {% endfor %}
+            
+            <div class="order-notes text-align--left">
+            
+             <h2 class="page-title font--heading text-align--center">Leave a personalised message with your hamper.</h2>
+              <div class="spacer spacing--4y"></div>
+              
+              <p class="cart-attribute__field">
+  <label for="recipients-name">To (Recipient's Name):</label>
+  <input required class="required" id="recipients-name" type="text" name="attributes[To (Recipient's Name):]" value="{{ cart.attributes["Recipients Name"] }}">
+</p>
+          
+          <p class="cart-attribute__field">
+  <label for="message">Message:</label>
+  <textarea id="message" name="attributes[Message]" maxlength="250">{{ cart.attributes["Message"] }}</textarea>
+</p>
+          
+          <p class="cart-attribute__field">
+  <label for="from">From (Giver's Name):</label>
+  <input required class="required" id="from" type="text" name="attributes[From (Giver's Name):]" value="{{ cart.attributes["From"] }}">
+</p>
+            </div>
+            
+
+            <div class="text-align--center text-align--large-right">
+              <input type="submit" name="update" class="button font--accent" value="{{ 'cart.update_cart' | t }}" />
+            </div>
+
+            <div class="totals width--12 text-align--center ">
+              <div class="width--12 width--large-8 block"></div>
+              <div class="block spacing--3y width--12 width--large-4 font--size-3 text--bold text-align--large-right text--uppercase">
+                <span class="spacing--3">{{ 'cart.subtotal' | t }}</span>
+                <span class="total spacing--3 money"><span class="Bold-theme-hook-DO-NOT-DELETE bold_cart_total" style="display:none !important;"></span>{{ cart.total_price | money }}</span>
+              </div>
+            </div>
+            <div class="spacer spacing--3y show-for-small-medium"></div>
+          </div>
+          
+        
+
+          <div class="fw--blocks">
+            <div class="order-notes width--large-6 text-align--right"> 
+              
+              
+           
+             
+              {% if settings.cart--show-note %}
+                <p class="text-align--center text-align--large-left">{{ 'cart.order_notes' | t }}</p>
+              
+              
+              
+              
+              <textarea name="note">{{ note }}</textarea>
+                <div class="spacer spacing--4y show-for-small-medium"></div>
+              {% endif %}
+              
+              
+
+            </div>
+            
+
+            <div class="width--large-6">
+              <p class="text-align--center text-align--large-right">{{ 'cart.shipping_taxes_notification' | t }}</p>
+              <div class="spacer spacing--2y"></div>
+
+              <div class="fw--blocks spacing--3 compact--3x list text-align--center text-align--large-right">
+                <div><a class="continue-shopping text--underline text--uppercase" href="{{ shop.url }}/collections/all">{{ 'cart.continue' | t }}</a></div>
+                <div><button type="submit" name="checkout" class="button checkout font--accent">{{ 'cart.checkout' | t }}</button></div>
+                {% if additional_checkout_buttons %}
+                  <br />
+                  <div class="additional-checkout-buttons">
+                    {{ content_for_additional_checkout_buttons }}
+                  </div>
+                {% endif %}
+
+              </div>
+            </div>
+          </div>
+         
+   
+          
+        </form>
+      </div>
+
+    {% else %}
+      <p class="notification--empty spacing--5">{{ 'cart.empty_html' | t }}</p>
+
+    {% endif %}
+
+  </div>
+</div>
+
+
+
+
+
+
+

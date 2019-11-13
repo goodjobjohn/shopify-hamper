@@ -1,0 +1,35 @@
+{% comment %} Typography {% endcomment %}
+{% if advanced-settings == 'variables' %}
+  {% assign advanced--font--typekit-id = '' %}
+  {% assign advanced--font--heading--google = '' %}
+  {% assign advanced--font--heading--typekit = '' %}
+  {% assign advanced--font--accent--google = '' %}
+  {% assign advanced--font--accent--typekit = '' %}
+  {% assign advanced--font--text--google = '' %}
+  {% assign advanced--font--text--typekit = '' %}
+
+  {% assign advanced--collection--hover-image = false %}
+{% endif %}
+
+
+{% if advanced-settings == 'styles' %}
+  <style>
+    {% if advanced--font--heading--typekit.size > 0 %}
+      .font--heading, h1, h2, h3, h4, h5, h6 { font-family: "{{ advanced--font--heading--typekit }}"; }
+    {% elsif advanced--font--heading--google.size > 0 %}
+      .font--heading, h1, h2, h3, h4, h5, h6 { font-family: "{{ advanced--font--heading--google }}"; }
+    {% endif %}
+
+    {% if advanced--font--accent--typekit.size > 0 %}
+      .font--accent, button, .button, a.button, input[type="submit"], input[type="button"], label, input[type="reset"], .layout--header, .partial--main-menu.vertical, .partial--social-media .share-buttons-list a span, .partial--fullscreen-panel .owl-controls .owl-pagination { font-family: "{{ advanced--font--accent--typekit }}"; }
+    {% elsif advanced--font--accent--google.size > 0 %}
+      .font--accent, button, .button, a.button, input[type="submit"], input[type="button"], label, input[type="reset"], .layout--header, .partial--main-menu.vertical, .partial--social-media .share-buttons-list a span, .partial--fullscreen-panel .owl-controls .owl-pagination { font-family: "{{ advanced--font--accent--google }}"; }
+    {% endif %}
+
+    {% if advanced--font--text--typekit.size > 0 %}
+      .font--text, body { font-family: "{{ advanced--font--text--typekit }}"; }
+    {% elsif advanced--font--text--google.size > 0 %}
+      .font--text, body { font-family: "{{ advanced--font--text--google }}"; }
+    {% endif %}
+  </style>
+{% endif %}

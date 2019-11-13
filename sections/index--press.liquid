@@ -1,0 +1,324 @@
+{% assign generated = section.settings.home--news--generated %}
+
+<div
+  class="template--index--news fullscreen-panel"
+  data-js-class="IndexPress"
+  data-section-id="{{ section.id }}"
+  data-section-type="index_press"
+>
+  <div class="fw--slider" data-js-class="FrameworkSlider" data-navigation="true" data-pagination="false" data-pagination-numbers="false" data-news-panel="true">
+
+    {% if generated == 'automatic' %}
+      {% assign layout_type = 'a' %}
+      {% assign feed_type = 'blog' %}
+
+      {% assign blog = blogs['news'] %}
+
+      {% for article in blog.articles limit: 5 %}
+        {% assign caption = article.excerpt_or_content | strip_html %}
+        {% assign title = article.title %}
+        {% assign link = article.url %}
+
+        <div class="slide" data-feed-type="blog">
+
+          <div class="container layout-type--b show--medium-large fw--align--center-x fw--align--center-y">
+            <div class="table">
+              <div class="row">
+                <div class="column-a">
+                  <h2 class="title font--heading">{{ title }}</h2>
+                </div>
+
+                <div class="column-b">
+                  {% if article.image %}
+                    {{ article.image | article_img_url: '1024x1024' | img_tag }}
+                  {% endif %}
+                </div>
+
+                <div class="column-c">
+                  <div class="text-wrapper">
+                    <p class="caption fw--ellipsis">{{ caption }}</p>
+
+                    <a class="more-details font--accent" href="{{ link }}">
+                      <span class="text">{{ 'home.news_panel.read_more' | t }}</span>
+                    </a>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="container layout-type--b show--small fw--align--center-x fw--align--center-y">
+            <div class="row">
+              <div class="column-a">
+                <h2 class="title font--heading">{{ title }}</h2>
+              </div>
+
+              <div class="column-b">
+                {% if article.image %}
+                  {{ article.image | article_img_url: '1024x1024' | img_tag }}
+                {% endif %}
+              </div>
+
+              <div class="column-c">
+                <div class="text-wrapper">
+                  <p class="caption">{{ caption | truncate: 100 }}</p>
+
+                  <a class="more-details font--accent" href="{{ link }}">
+                    <span class="text">{{ 'home.news_panel.read_more' | t }}</span>
+                  </a>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      {% endfor %}
+
+    {% else %}
+
+      {% for block in section.blocks limit: section.blocks.size %}
+        {% assign feed_type = block.settings.home--news--feed-type %}
+
+        <div
+          class="slide"
+          data-feed-type="{{ feed_type }}"
+          data-block-id="{{ block.id }}"
+          {{ block.shopify_attributes }}
+        >
+
+          <div class="container layout-type--b show--medium-large fw--align--center-x fw--align--center-y{% unless block.settings.image %} with-placeholder{% endunless %}">
+            <div class="table">
+              <div class="row">
+                <div class="column-a">
+                  <h2 class="title font--heading">{{ block.settings.home--news--title | escape }}</h2>
+                </div>
+
+                <div class="column-b">
+                  {% if block.settings.image %}
+                    {{ block.settings.image | img_url: '1000x' | img_tag: block.settings.image.alt | default: '' }}
+                  {% else %}
+                    {% assign index = forloop.index %}
+                    {% assign aspect_ratio = "800x550" %}
+
+                    {% if index == 1 %}
+                      {% assign aspect_ratio = "600x800" %}
+                    {% elsif index == 2 %}
+                      {% assign aspect_ratio = "800x550" %}
+                    {% elsif index == 3 %}
+                      {% assign aspect_ratio = "800x800" %}
+                    {% endif %}
+                    {% comment %} Lets stick with this until we flexbox the layout {% endcomment %}
+                    {% assign aspect_ratio = "600x800" %}
+
+                    <div class="placeholder-wrapper">
+                      {% include
+                        "framework--placeholder",
+                        type: "image",
+                        aspect_ratio: aspect_ratio,
+                        custom_classes: "full-height"
+                      %}
+                    </div>
+                  {% endif %}
+                </div>
+
+                <div class="column-c">
+                  <div class="text-wrapper">
+                    <p class="caption fw--ellipsis">
+                      {{ block.settings.home--news--caption | escape }}
+                    </p>
+
+                    <a class="more-details font--accent" href="{{ block.settings.home--news--link }}">
+                    {% if feed_type == 'instagram' %}
+                      {% include 'snippet-symbol' with 'instagram' %}
+                      <span class="text">{{ 'home.news_panel.view_instagram' | t }}</span>
+                    {% elsif feed_type == 'facebook' %}
+                      {% include 'snippet-symbol' with 'facebook' %}
+                      <span class="text">{{ 'home.news_panel.view_facebook' | t }}</span>
+                    {% elsif feed_type == 'blog' %}
+                      <span class="text">{{ 'home.news_panel.view_blog' | t }}</span>
+                    {% elsif feed_type == 'tumblr' %}
+                    {% include 'snippet-symbol' with 'tumblr' %}
+                    <span class="text">{{ 'home.news_panel.view_tumblr' | t }}</span>
+                    {% elsif feed_type == 'twitter' %}
+                      {% include 'snippet-symbol' with 'twitter' %}
+                      <span class="text">{{ 'home.news_panel.view_twitter' | t }}</span>
+                    {% elsif feed_type == 'other' %}
+                      <span class="text">{{ 'home.news_panel.view_other' | t }}</span>
+                    {% endif %}
+                    </a>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+         <div class="container layout-type--b show--small fw--align--center-x fw--align--center-y">
+            <div class="row">
+              <div class="column-a">
+                <h2 class="title font--heading">{{ block.settings.home--news--title | escape }}</h2>
+              </div>
+
+              <div class="column-b">
+                {% if block.settings.image %}
+                  {{ block.settings.image | img_url: '1000x' | img_tag: block.settings.image.alt | default: '' }}
+                {% else %}
+                  {% assign index = forloop.index %}
+
+                  {% comment %} This is the best aspect ratio for mobile {% endcomment %}
+                  {% assign aspect_ratio = "1x1" %}
+                  <div class="placeholder-wrapper">
+                    {% include "framework--placeholder", type: "image", aspect_ratio: aspect_ratio %}
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="column-c">
+                <div class="text-wrapper">
+                  <p class="caption">{{ block.settings.home--news--caption | strip_html | strip | truncate: 100 }}</p>
+
+                  <a class="more-details font--accent" href="{{ link }}">
+                  {% if feed_type == 'instagram' %}
+                    {% include 'snippet-symbol' with 'instagram' %}
+                    <span class="text">{{ 'home.news_panel.view_instagram' | t }}</span>
+                  {% elsif feed_type == 'facebook' %}
+                    {% include 'snippet-symbol' with 'facebook' %}
+                    <span class="text">{{ 'home.news_panel.view_facebook' | t }}</span>
+                  {% elsif feed_type == 'blog' %}
+                    <span class="text">{{ 'home.news_panel.view_blog' | t }}</span>
+                  {% elsif feed_type == 'tumblr' %}
+                    {% include 'snippet-symbol' with 'tumblr' %}
+                    <span class="text">{{ 'home.news_panel.view_tumblr' | t }}</span>
+                  {% elsif feed_type == 'twitter' %}
+                  {% include 'snippet-symbol' with 'twitter' %}
+                    <span class="text">{{ 'home.news_panel.view_twitter' | t }}</span>
+                  {% elsif feed_type == 'other' %}
+                    <span class="text">{{ 'home.news_panel.view_other' | t }}</span>
+                  {% endif %}
+                  </a>
+                </div>
+
+              </div> <!-- .row -->
+            </div> <!-- .table -->
+          </div> <!-- .container -->
+        </div> <!-- .slide -->
+      {% endfor %}
+    {% endif %}
+
+
+    <div class="slide">
+      <div class="wrapper text-align--center fw--align--center-y">
+        <a class="button" href="/blogs/news">{{ 'home.view_blog' | t }}</a>
+
+        {% assign kickstarter_url = settings.social--kickstarter--url %}
+        {% assign facebook_url = settings.social--facebook--url %}
+        {% assign twitter_url = settings.social--twitter--url %}
+        {% assign google_plus_url = settings.social--google-plus--url %}
+        {% assign pinterest_url = settings.social--pinterest--url %}
+        {% assign instagram_url = settings.social--instagram--url %}
+        {% assign vimeo_url = settings.social--vimeo--url %}
+        {% assign youtube_url = settings.social--youtube--url %}
+        {% assign tumblr_url = settings.social--tumblr--url %}
+
+        {% if kickstarter_url.size > 0 or facebook_url.size > 0 or twitter_url.size > 0 or google_plus_url.size > 0 or pinterest_url.size > 0 or instagram_url.size > 0 or vimeo_url.size > 0 or youtube_url.size > 0 or tumblr_url.size > 0 %}
+          <div class="spacer spacing--4y"></div>
+          <p class="font--accent">{{ 'home.follow_other_feeds' | t }}</p>
+          {% include 'partial--social-media' with 'news--last-slide' %}
+        {% endif %}
+
+      </div> <!-- .wrapper -->
+    </div> <!-- .slide -->
+  </div>
+</div> <!-- .fullscreen-panel -->
+
+{% schema %}
+{
+  "name": "Blog posts",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "radio",
+      "id": "home--news--generated",
+      "label": "Generate posts",
+        "options": [
+          { "value": "automatic", "label": "Automatically (up to 5 blog posts)" },
+          { "value": "manual", "label": "Manually (using settings below)" }
+        ],
+      "default": "automatic"
+    },
+    {
+      "type": "paragraph",
+      "content": "Slide layouts are determined by the shape of the image. There are 3 to consider - landscape, portrait, or square."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "select",
+          "id": "home--news--feed-type",
+          "label": "Feed type",
+          "options": [
+            { "value": "blog", "label": "Blog" },
+            { "value": "instagram", "label": "Instagram" },
+            { "value": "facebook", "label": "Facebook" },
+            { "value": "twitter", "label": "Twitter" },
+            { "value": "tumblr", "label": "Tumblr" },
+            { "value": "other", "label": "Other" }
+          ]
+        },
+        {
+          "type": "url",
+          "id": "home--news--link",
+          "label": "Link to"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "800 x 800px max"
+        },
+        {
+          "type":  "text",
+          "id":    "home--news--title",
+          "label": "Headline",
+          "default": "Add your title"
+        },
+        {
+          "type": "textarea",
+          "id": "home--news--caption",
+          "label": "Excerpt text",
+          "default": "Add your excerpt"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog posts",
+      "category": "Blog",
+      "settings": {
+        "home--news--generated": "automatic"
+      },
+      "blocks": [
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

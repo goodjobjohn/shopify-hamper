@@ -1,0 +1,400 @@
+{% assign view = partial--product-100 %}
+{% include 'advanced-settings' with 'variables' %}
+{% assign has_hover = false %}
+{% if product.images.size > 1 and advanced--collection--hover-image %}
+  {% assign has_hover = true %}
+{% endif %}
+
+{% if view == 'product-page' %}
+
+  <div class="partial--product view--full" data-view="product-page" itemscope itemtype="http://schema.org/Product" data-handle="{{ product.handle }}" data-id="{{ product.id }}" data-variants-size="{{ product.variants.size }}">
+    <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
+    <meta itemprop="name" content="{{ product.title }}" />
+    <meta itemprop="image" content="{{ product.featured_image.src | product_img_url: 'grande' }}" />
+    <script>theme.product_json[{{ product.id }}] = {{ product | json }}; </script>
+
+    <div class="details">
+
+      <form class="add-to-cart {% unless product.variants.size > 1 %}no-variants{% endunless %}" action="/cart/add" method="post" enctype="multipart/form-data">
+        <div class="left-side">
+
+          <div class="title-below">
+            <div class="spacing--3x show--small-medium"><a class="title" href="{{ product.url }}"><h1 class="font--heading">{{ product.title }}</h1></a></div>
+
+            {% unless section.settings.position-title-above %}
+              <div class="spacing--3x show--large"><a class="title" href="{{ product.url }}"><h1 class="font--heading">{{ product.title }}</h1></a></div>
+            {% endunless %}
+          </div>
+
+          <span class="selector-toggle {% unless product.variants.size > 1 %}hide-for-all{% endunless %}">
+            <select name="id" id="product-select-{{ product.id }}">
+              {% for variant in product.variants %}
+                <option data-sku="{{ variant.sku }}" {% if variant.inventory_quantity <= 0 and variant.available == false %}DISABLED {% endif %}{% if variant == product.selected_or_first_available_variant %}selected="selected" {% endif %} value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+              {% endfor %}
+            </select>
+          </span>
+
+          {% assign variant = product.selected_or_first_available_variant %}
+
+          <span class="{% unless product.available %} disabled{% endunless %}">
+            <input type="hidden" name="quantity" value="1">
+          </span>
+        </div>
+
+        <div class="right-side fw--align--right add-hamper">
+          {% if product.available == false %}
+            <span class="sold-out font--accent font--subheading--size color--important">{{ 'collections.sold_out_html' | t }}</span>
+          {% endif %}
+
+          <span class="{% unless product.available %} disabled{% endunless %}">
+            <span class="price font--accent font--subheading--size" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+              <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+              {% if product.available %}
+                <link itemprop="availability" href="http://schema.org/InStock" />
+              {% else %}
+                <link itemprop="availability" href="http://schema.org/OutOfStock" />
+              {% endif %}
+
+              {% if product.price > 0 %}
+                <span class="compare-price money">{% if product.compare_at_price > product.price and product.available %}{{ product.compare_at_price | money }}{% endif %}</span>
+                <span class="actual-price money" itemprop="price">{{ product.price | money }}</span>
+              {% endif %}
+            </span>
+
+            {% if template contains 'kickstarter' %}
+              <a href="{{ settings.social--kickstarter--url }}" class="button"><span class="text">{{ 'products.back_on_kickstarter' | t }}</span></a>
+            {% else %}
+              <button class="add button" type="submit" name="add" id="add"><span class="text">{{ 'products.add_to_cart' | t }}</span><span class="fw--loading_animation tiny"></span></button>
+            {% endif %}
+
+          </span>
+        </div>
+
+        <div class="hamper">
+          <div class="block text text-align--left">
+            <div class="description rte-content" itemprop="description">
+              {{ product.description }}                          
+            </div>
+          </div>
+          
+          <div class="spacing--5y fw--blocks">
+            <div class="column left-side width--6">
+              <label>INSTRUCTIONS</label><br>
+              <ol>
+                <li>Select which hamper combination you prefer.</li>
+                <li>Click on an image to select the item you wish to add to your hamper.</li>
+                <li>When all selections have been made, click ‘Add to Cart’.</li>
+                <li>Checkout, and we’ll do the rest. Happy days.</li>
+              </ol>
+            </div>
+            <div class="column right-side width--6">
+              <p class="line-item-property__field">
+                <label>Hamper Combination</label><br>
+                <input type="radio" id="radio" hidden-data="Combo" onchange="alcoholHide()" class="op1" name="properties[Hamper Combination]" value="1 x Beer/Wine  6 x Sweet/Savoury/Tea"><span>1 x Beer/Wine  6 x Sweet/Savoury/Tea</span><br>
+                <input type="radio" id="radio" hidden-data="Combo" onchange="alcoholHide()" class="op2" name="properties[Hamper Combination]" value="9 x Sweet/Savoury/Tea"><span>9 x Sweet/Savoury/Tea</span><br>
+              </p>
+            </div>
+          </div>
+          
+          <p class="custom-hamper">
+            <span class="cat-heading">SWEET</span>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-3" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Chocolate Chip Cookies – 4 per pack"><label for="Option-3" style="background-image: url({{ product.images[3] | product_img_url: "master" }}"><span>Chocolate Chip Cookies – 4 per pack</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-4" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Cranberry & Pistachio Biscotti 100g"><label for="Option-4" style="background-image: url({{ product.images[4] | product_img_url: "master" }}"><span>Cranberry & Pistachio Biscotti 100g</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-2" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Shortbread Hearts 100g"><label for="Option-2" style="background-image: url({{ product.images[2] | product_img_url: "master" }}"><span>Shortbread Hearts 100g</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-5" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Carob Vegan Bliss Balls 20g* x 2"><label for="Option-5" style="background-image: url({{ product.images[5] | product_img_url: "master" }}"><span>Carob Vegan Bliss Balls 20g* x 2</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-1" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Mini Yo-Yos - 6 per pack"><label for="Option-1" style="background-image: url({{ product.images[1] | product_img_url: "master" }})" title="Test the alt"><span>Mini Yo-Yos - 6 per pack</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-6" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Italian Florentines – 4 per pack"><label for="Option-6" style="background-image: url({{ product.images[6] | product_img_url: "master" }}"><span>Italian Florentines – 4 per pack</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-7" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Florentine Crunch GF Cookies – 4 per pack*"><label for="Option-7" style="background-image: url({{ product.images[7] | product_img_url: "master" }}"><span>Florentine Crunch GF Cookies – 4 per pack*</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-8" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Bean to Bar 75% Dark Chocolate 60g*"><label for="Option-8" style="background-image: url({{ product.images[8] | product_img_url: "master" }}"><span>Bean to Bar 75% Dark Chocolate 60g*</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-9" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Bean to Bar Milk Chocolate 60g*"><label for="Option-9" style="background-image: url({{ product.images[9] | product_img_url: "master" }}"><span>Bean to Bar Milk Chocolate 60g</span>*<span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-10" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Petit Fruit and Nut Drops 100g"><label for="Option-10" style="background-image: url({{ product.images[10] | product_img_url: "master" }}"><span>Petit Fruit and Nut Drops 100g</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-11" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Classic Dark Chocolate Rocky Road"><label for="Option-11" style="background-image: url({{ product.images[11] | product_img_url: "master" }}"><span>Classic Dark Chocolate Rocky Road</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-12" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Hot Chocolate Bomb"><label for="Option-12" style="background-image: url({{ product.images[12] | product_img_url: "master" }}"><span>Hot Chocolate Bomb</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-13" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="White Chocolate and Berry Bark 100g"><label for="Option-13" style="background-image: url({{ product.images[13] | product_img_url: "master" }}"><span>White Chocolate and Berry Bark 100g</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-14" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Honeycomb & Pretzel Milk Chocolate Bark 100g"><label for="Option-14" style="background-image: url({{ product.images[14] | product_img_url: "master" }}"><span>Honeycomb & Pretzel Milk Chocolate Bark 100g</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-15" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Handmade Assorted Chocolate Truffles (4 Pack)"><label for="Option-15" style="background-image: url({{ product.images[15] | product_img_url: "master" }}"><span>Handmade Assorted Chocolate Truffles (4 Pack)</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-16" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Fruit Jam 190ml (seasonal)"><label for="Option-16" style="background-image: url({{ product.images[16] | product_img_url: "master" }}"><span>Fruit Jam 190ml (seasonal)</span><span class="checkmark"></span></label><br>
+            
+            <input type="checkbox" class="hamper-checkbox food" id="Option-17" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Caramelized White Choc, Raspberry & Macadamia Bar 75g"><label for="Option-17" style="background-image: url({{ product.images[17] | product_img_url: "master" }}"><span>Caramelized White Choc, Raspberry & Macadamia Bar 75g</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-18" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Milk Chocolate, Marshmallow, Biscuit & Coconut Bar 75g"><label for="Option-18" style="background-image: url({{ product.images[18] | product_img_url: "master" }}"><span>Milk Chocolate, Marshmallow, Biscuit & Coconut Bar 75g</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-19" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Milk Chocolate, Peanut Butter, Praline Crunch & Sea Salt Bar 60g"><label for="Option-19" style="background-image: url({{ product.images[19] | product_img_url: "master" }}"><span>Milk Chocolate, Peanut Butter, Praline Crunch & Sea Salt Bar 60g</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-20" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Salted Caramel Popcorn 75g">
+              <label for="Option-20" class="hamper-checkbox food" style="background-image: url({{ product.images[20] | product_img_url: "master" }}" title="Salted Caramel Popcorn 75g - Little Miss Meringue"><span>Salted Caramel Popcorn 75g</span><span class="checkmark"></span></label><br>
+            
+            <span class="cat-heading">SAVOURY</span>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-21" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="BBQ Brew Sauce 270g">
+              <label for="Option-21" style="background-image: url({{ product.images[21] | product_img_url: "master" }}"><span>BBQ Brew Sauce 270g</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-22" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Capsicum and Cashew Dip 100g*">
+              <label for="Option-22" style="background-image: url({{ product.images[22] | product_img_url: "master" }}"><span>Capsicum and Cashew Dip 100g*</span><span class="checkmark"></span></label><br>
+            
+            <input type="checkbox" class="hamper-checkbox food" id="Option-23" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Ripper Tomato Relish 315g*">
+              <label for="Option-23" style="background-image: url({{ product.images[23] | product_img_url: "master" }}"><span>Ripper Tomato Relish 315g*</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-24" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Parmesan Sable 100g">
+              <label for="Option-24" style="background-image:url({{ product.images[24] | product_img_url: "master" }}"><span>Parmesan Sable 100g</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-25" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Beef Jerky 40g">
+              <label for="Option-25" style="background-image: url({{ product.images[25] | product_img_url: "master" }}"><span>Beef Jerky 40g</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-26" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Memphis Style Spice Blend 40g">
+              <label for="Option-26" style="background-image: url({{ product.images[26] | product_img_url: "master" }}"><span>Memphis Style Spice Blend 40g</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-27" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Olive Dukkah 60g">
+              <label for="Option-27" style="background-image: url({{ product.images[27] | product_img_url: "master" }}"><span>Olive Dukkah 60g</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-28" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Olive Salt 40g">
+              <label for="Option-28" style="background-image: url({{ product.images[28] | product_img_url: "master" }}"><span>Olive Salt 40g</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-29" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Cured Kalamata Olives 330g">
+              <label for="Option-29" style="background-image: url({{ product.images[29] | product_img_url: "master" }}"><span>Cured Kalamata Olives 330g</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-30" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="BBQ Chilli Sauce 150ml">
+              <label for="Option-30" style="background-image: url({{ product.images[30] | product_img_url: "master" }}"><span>BBQ Chilli Sauce 150ml</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-31" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Coriander, Garlic & Jalapeno Chilli Sauce 150ml">
+              <label for="Option-31" style="background-image: url({{ product.images[31] | product_img_url: "master" }}"><span>Coriander, Garlic & Jalapeno Chilli Sauce 150ml</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-32" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Chilli Jam 270g">
+              <label for="Option-32" style="background-image: url({{ product.images[32] | product_img_url: "master" }}"><span>Chilli Jam 270g</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-33" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Caramelised Onion and Pear Dip 100g*">
+              <label for="Option-33" style="background-image: url({{ product.images[33] | product_img_url: "master" }}"><span>Caramelised Onion and Pear Dip 100g*</span><span class="checkmark"></span></label><br>
+            
+          
+            <span class="cat-heading">TEA</span>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-34" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Zee Blend Black Tea 40g*">
+              <label for="Option-34" style="background-image: url({{ product.images[34] | product_img_url: "master" }}"><span>Zee Blend Black Tea 40g*</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox food" id="Option-35" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Lemongrass & Ginger Herbal Tea*">
+              <label for="Option-35" style="background-image: url({{ product.images[35] | product_img_url: "master" }}"><span>Lemongrass & Ginger Herbal Tea*</span><span class="checkmark"></span></label><br>
+            
+            <span class="cat-heading alcohol">ALCHOHOL</span>
+            <input type="checkbox" class="hamper-checkbox alco" id="Option-36" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Sauvignon Blanc 750ml*">
+              <label for="Option-36" class="alcohol" style="background-image: url({{ product.images[36] | product_img_url: "master" }}"><span>Sauvignon Blanc 750ml*</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox alco" id="Option-37" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Pinot Noir 750ml*">
+              <label for="Option-37" class="alcohol" style="background-image: url({{ product.images[37] | product_img_url: "master" }}"><span>Pinot Noir 750ml*</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox alco" id="Option-38" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Prosecco 750ml*">
+              <label for="Option-38" class="alcohol" style="background-image: url({{ product.images[38] | product_img_url: "master" }}"><span>Prosecco 750ml*</span><span class="checkmark"></span></label><br>
+            <input type="checkbox" class="hamper-checkbox alco" id="Option-39" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="Citra Pale Ale 375ml x 2">
+              <label for="Option-39" class="alcohol" style="background-image: url({{ product.images[39] | product_img_url: "master" }}"><span>Citra Pale Ale 375ml x 2</span><span class="checkmark"></span></label><br>
+            
+                     
+            <input type="hidden" id="Your-name" name="properties[Your choices]">
+            <script>
+              
+              // Add checked items to hidden field
+              function fillHidden(hiddenname) {
+                var checkboxes = document.querySelectorAll('[hidden-data="'+hiddenname+'"]');
+                var hiddenfield = document.getElementById(hiddenname);
+                var checked = $("input.hamper-checkbox:checked").length;
+                
+                var i;
+                limits = 0;
+                if($('input.op1').is(':checked')){
+                  limits = 7
+                }
+                if($('input.op2').is(':checked')){
+                  limits = 9
+                }
+                
+                // Alert when user starts checking items before selecting combination.
+                if($('input#radio').is(':checked')){
+                  //nothing to do.
+                } else {
+                  alert("Please select your hamper combination before selecting your items.")
+                }                
+               
+                // Store checkbox values in hidden input tag. 
+                if (checked <= limits){    
+                  hiddenfield.value = ""    
+                  for (i = 0; i < checkboxes.length; i++) {
+                    var x = checkboxes[i];
+                    if(x.checked){
+                      if(hiddenfield.value==""){
+                        hiddenfield.value = x.value;
+                      } else {
+                        hiddenfield.value = hiddenfield.value + ", " + x.value; 
+                      } 
+                    }
+                  } // for
+                }
+              } // END FUNCTION 
+
+              // Hide/show alcohol on radio button change.
+              function alcoholHide(){
+                $('input.hamper-checkbox').attr("checked", false); // Uncheck all checked
+                if($('input.op1').is(':checked')){
+                  $('label.alcohol').show();
+                  $('span.alcohol').show();
+                }
+                if($('input.op2').is(':checked')){
+                  $('label.alcohol').hide();
+                  $('span.alcohol').hide();
+                }
+              }
+              
+              // Limit the number of checkboxes checked.                                   
+              $('input.hamper-checkbox.food').on('change', function(evt) {
+                if($('input.op1').is(':checked')){
+                  var foodLimit = 6; 
+                  limits = 7;               
+                  var food = $('input.hamper-checkbox.food:checked').length;               
+                  if(food > foodLimit) {
+                      this.checked = false;
+                  }
+                }
+                if($('input.op2').is(':checked')){
+                  var foodLimit = 9;
+                  limits = 9                
+                  var food = $('input.hamper-checkbox.food:checked').length;               
+                  if(food > foodLimit) {
+                      this.checked = false;
+                  }
+                }                
+              });    
+             
+              // Limit achohol selection
+              $('input.hamper-checkbox.alco').on('change', function(evt) {
+                if($('input.op1').is(':checked')){
+                  var alcoLimit = 1;
+                  var alco = $('input.hamper-checkbox.alco:checked').length;
+                  if( alco > alcoLimit) {
+                      this.checked = false;
+                  }
+                }
+              });
+              
+              // 'Add to cart' button warning
+              $('button.add').click(function(event) {
+                var checkedTotal = $("input.hamper-checkbox:checked").length;
+                var r1Limit = 7;
+                var r2Limit = 9;                
+                // Disables 'Add to Cart' button when criteria not reached.   
+                if($('input.op1').is(':checked')){
+                  if(checkedTotal < r1Limit){ 
+                    event.preventDefault();
+                    alert("You have only selected " + checkedTotal + " items, please select the correct amount.")
+                  } else {
+                    // add to cart 
+                  }
+                } else {
+                if($('input.op2').is(':checked')){
+                  if(checkedTotal < r2Limit){ 
+                    event.preventDefault();
+                    alert("You have only selected " + checkedTotal + " items, please select the correct amount.")
+                  } else {
+                    // add to cart
+                  }
+                } else {
+                  event.preventDefault();
+                  alert("You have not selected a hamper combination.")
+                }}
+              });
+              
+            </script>
+          </p>
+        </div>
+      </form>
+
+      {% include 'partial--product--unavailable' %}
+
+    </div>
+  </div>
+
+{% elsif view == 'featured' %}
+
+  <div class="partial--product view--list fw--blocks{% if has_hover %} has-hover{% endif %}" data-view="list" data-handle="{{ product.handle }}" data-id="{{ product.id }}" data-variants-size="{{ product.variants.size }}">
+    <div class="width--medium-6 width--small-12 image-container spacing--5">
+      <a href="{{ product.url | within: collection }}">
+        {% if has_hover %}
+          <img src="{{ product.images[1] | product_img_url: 'grande' }}" alt="{{ product.images[1].alt | escape }}" class="hover-image fw--align--center" />
+        {% endif %}
+
+        <img src="{{ product.featured_image.src | product_img_url: 'grande' }}" alt="{{ product.featured_image.alt | escape }}" />
+      </a>
+    </div>
+
+    <div class="width--medium-6 width--small-12 details spacing--4 spacing--5">
+      <a href="{{ product.url }}"><h2 class="title font--heading">{{ product.title }}</h2></a>
+
+      {% if section.settings.show-vendor %}
+        {% assign product_vendor_handle = product.vendor | handle %}
+        {% if collections[product_vendor_handle].handle == product_vendor_handle %}
+          {% assign vendor_url = collections[product_vendor_handle].url %}
+        {% else %}
+          {% assign vendor_url = product.vendor | url_for_vendor %}
+        {% endif %}
+        <div class="spacer spacing--1y"></div>
+        <p class="vendor">{{ product.vendor | link_to: vendor_url }}</p>
+      {% endif %}
+
+
+      <p class="price font--accent spacing--3y font--subheading--size">
+        {% assign variant = product.selected_or_first_available_variant %}
+        {% if product.price > 0 %}
+          <span class="compare-price money">{% if product.compare_at_price > product.price and product.available %}{{ product.compare_at_price | money }}{% endif %}</span>
+          <span class="actual-price money">{{ product.price | money }}</span>
+        {% endif %}
+        {% if product.available == false %}
+          <span class="sold-out font--accent">{{ 'collections.sold_out_html' | t }}</span>
+        {% endif %}
+      </p>
+
+      <div class="description rte-content">{{ product.description }}</div>
+      <div class="spacer spacing--3y"></div>
+      <a class="button" href="{{ product.url | within: collection }}">{{ 'products.more_details' | t }}</a>
+
+    </div>
+  </div>
+
+
+{% else %} {% comment %} Grid or Collage View{% endcomment %}
+
+
+  <div class="partial--product view--{{ view }} index--{{ odd_or_even }}{% if has_hover %} has-hover{% endif %}" data-view="{{ view }}">
+
+    <a class="image-wrapper show--small {% if odd_or_even == 'odd' %}show--medium-large{% endif %}" href="{{ product.url | within: collection  }}" title="{{ product.title }}">
+      {% if has_hover %}
+        <img src="{{ product.images[1] | product_img_url: 'grande' }}" alt="{{ product.images[1].alt | escape }}" class="hover-image fw--align--center" />
+      {% endif %}
+
+      <img src="{{ product.featured_image.src | product_img_url: 'grande' }}" alt="{{ product.featured_image.alt | escape }}" />
+      </a>
+
+
+      <div class="caption">
+        <a href="{{ product.url | within: collection  }}" title="{{ product.title }}">
+          <h2 class="title font--subheading">
+            {{ product.title }}
+          </h2>
+        </a>
+
+        {% if section.settings.show-vendor %}
+          {% assign product_vendor_handle = product.vendor | handle %}
+          {% if collections[product_vendor_handle].handle == product_vendor_handle %}
+            {% assign vendor_url = collections[product_vendor_handle].url %}
+          {% else %}
+            {% assign vendor_url = product.vendor | url_for_vendor %}
+          {% endif %}
+          <p class="vendor">{{ product.vendor | link_to: vendor_url }}</p>
+        {% endif %}
+
+        <a href="{{ product.url | within: collection  }}" title="{{ product.title }}">
+          <p class="price font--accent">
+            {% if product.price > 0 %}
+              {% if product.compare_at_price > product.price and product.available %}
+                <span class="compare-price money">{{ product.compare_at_price | money }}</span>
+                <span class="actual-price money">{{ product.price | money }}</span>
+              {% else %}
+                {% if product.price_varies %}{{ 'collections.from' | t }}{% endif %} <span class="actual-price money">{{ product.price | money }}</span>
+              {% endif %}
+            {% endif %}
+
+            {% if product.available == false %}
+              <span class="sold-out font--accent">{{ 'collections.sold_out_html' | t }}</span>
+            {% endif %}
+          </p>
+        </a>
+      </div>
+
+      {% if odd_or_even == 'even' %}
+        <a class="show--medium-large" href="{{ product.url | within: collection  }}" title="{{ product.title }}">
+          {% if has_hover %}
+            <img src="{{ product.images[1] | product_img_url: 'grande' }}" alt="{{ product.images[1].alt | escape }}" class="hover-image fw--align--center" />
+          {% endif %}
+
+          <img src="{{ product.featured_image.src | product_img_url: 'grande' }}" alt="{{ product.featured_image.alt | escape }}" />
+        </a>
+      {% endif %}
+
+  </div>
+{% endif %}

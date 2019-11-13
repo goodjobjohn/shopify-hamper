@@ -1,0 +1,790 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Maker-Customised",
+    "theme_author": "Troop Themes",
+    "theme_version": "3.0.3",
+    "theme_documentation_url": "http:\/\/support.troopthemes.com",
+    "theme_support_email": "support@troopthemes.com"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "General"
+      },
+      {
+        "type": "color",
+        "id": "bg-color--body",
+        "label": "Background"
+      },
+      {
+        "type": "color",
+        "id": "color--body",
+        "label": "Text"
+      },
+      {
+        "type": "color",
+        "id": "color--headings",
+        "label": "Headings"
+      },
+      {
+        "type": "color",
+        "id": "color--links",
+        "label": "Link"
+      },
+      {
+        "type": "color",
+        "id": "bg-color--panel",
+        "label": "Panels background"
+      },
+      {
+        "type": "color",
+        "id": "color--important",
+        "label": "Important",
+        "info": "Compare price, sold out, errors"
+      },
+      {
+        "type": "color",
+        "id": "color--button",
+        "label": "Button text\/border"
+      },
+      {
+        "type": "color",
+        "id": "bg-color--button",
+        "label": "Button background"
+      },
+      {
+        "type": "color",
+        "id": "bg-color--button--hover",
+        "label": "Button background hover"
+      },
+      {
+        "type": "color",
+        "id": "color--header",
+        "label": "Header\/footer text"
+      },
+      {
+        "type": "header",
+        "content": "Collection page"
+      },
+      {
+        "type": "color",
+        "id": "color--collection--title",
+        "label": "Title color (with featured image enabled)"
+      },
+      {
+        "type": "header",
+        "content": "Popup"
+      },
+      {
+        "type": "color",
+        "id": "color--popup",
+        "label": "Popup text\/icon",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "bg-color--popup",
+        "label": "Popup background",
+        "default": "#2e2e2e"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Headings"
+      },
+      {
+        "type": "select",
+        "id": "font--heading",
+        "label": "Font",
+        "options": [
+          {
+            "value": "google, 'Alegreya', Helvetica, Arial, sans-serif",
+            "label": "Alegreya",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Lato', Helvetica, Arial, sans-serif",
+            "label": "Lato",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Open Sans', Helvetica, Arial, sans-serif",
+            "label": "Open Sans",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Roboto', Helvetica, Arial, sans-serif",
+            "label": "Roboto",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Quattrocento Sans', Helvetica, Arial, sans-serif",
+            "label": "Quattrocento Sans",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Source Sans Pro', Helvetica, Arial, sans-serif",
+            "label": "Source Sans Pro",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Droid Sans', Helvetica, Arial, sans-serif",
+            "label": "Droid Sans",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'PT Sans', Helvetica, Arial, sans-serif",
+            "label": "PT Sans",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Dosis', Helvetica, Arial, sans-serif",
+            "label": "Dosis",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Cabin', Helvetica, Arial, sans-serif",
+            "label": "Cabin",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Rosario', Helvetica, Arial, sans-serif",
+            "label": "Rosario",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Muli', Helvetica, Arial, sans-serif",
+            "label": "Muli",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Droid Serif', Georgia, serif",
+            "label": "Droid Serif",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Merriweather', Georgia, serif",
+            "label": "Merriweather",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Playfair Display', Georgia, serif",
+            "label": "Playfair Display",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Quattrocento', Georgia, serif",
+            "label": "Quattrocento",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Cardo', Georgia, serif",
+            "label": "Cardo",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'EB Garamond', Georgia, serif",
+            "label": "EB Garamond",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Lustria', Georgia, serif",
+            "label": "Lustria",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Abel', Georgia, serif",
+            "label": "Abel",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Ovo', Georgia, serif",
+            "label": "Ovo",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Libre Baskerville', Georgia, serif",
+            "label": "Libre Baskerville",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Source Code Pro', Georgia, serif",
+            "label": "Source Code Pro",
+            "group": "Serif"
+          }
+        ],
+        "default": "google, 'Merriweather', Georgia, serif"
+      },
+      {
+        "type": "select",
+        "id": "font--heading--size",
+        "label": "Base size",
+        "options": [
+          {
+            "value": "16",
+            "label": "16px"
+          },
+          {
+            "value": "20",
+            "label": "20px"
+          },
+          {
+            "value": "24",
+            "label": "24px"
+          },
+          {
+            "value": "28",
+            "label": "28px"
+          },
+          {
+            "value": "32",
+            "label": "32px"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Accent",
+        "info": "Navigation, buttons, small headings"
+      },
+      {
+        "type": "select",
+        "id": "font--accent",
+        "label": "Font",
+        "options": [
+          {
+            "value": "google, 'Alegreya', Helvetica, Arial, sans-serif",
+            "label": "Alegreya",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Lato', Helvetica, Arial, sans-serif",
+            "label": "Lato",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Open Sans', Helvetica, Arial, sans-serif",
+            "label": "Open Sans",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Roboto', Helvetica, Arial, sans-serif",
+            "label": "Roboto",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Quattrocento Sans', Helvetica, Arial, sans-serif",
+            "label": "Quattrocento Sans",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Source Sans Pro', Helvetica, Arial, sans-serif",
+            "label": "Source Sans Pro",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Droid Sans', Helvetica, Arial, sans-serif",
+            "label": "Droid Sans",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'PT Sans', Helvetica, Arial, sans-serif",
+            "label": "PT Sans",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Dosis', Helvetica, Arial, sans-serif",
+            "label": "Dosis",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Cabin', Helvetica, Arial, sans-serif",
+            "label": "Cabin",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Rosario', Helvetica, Arial, sans-serif",
+            "label": "Rosario",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Muli', Helvetica, Arial, sans-serif",
+            "label": "Muli",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Droid Serif', Georgia, serif",
+            "label": "Droid Serif",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Merriweather', Georgia, serif",
+            "label": "Merriweather",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Playfair Display', Georgia, serif",
+            "label": "Playfair Display",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Quattrocento', Georgia, serif",
+            "label": "Quattrocento",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Cardo', Georgia, serif",
+            "label": "Cardo",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'EB Garamond', Georgia, serif",
+            "label": "EB Garamond",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Lustria', Georgia, serif",
+            "label": "Lustria",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Abel', Georgia, serif",
+            "label": "Abel",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Ovo', Georgia, serif",
+            "label": "Ovo",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Libre Baskerville', Georgia, serif",
+            "label": "Libre Baskerville",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Source Code Pro', Georgia, serif",
+            "label": "Source Code Pro",
+            "group": "Serif"
+          }
+        ],
+        "default": "google, 'Cardo', Georgia, serif"
+      },
+      {
+        "type": "checkbox",
+        "id": "font--accent--uppercase",
+        "label": "Capitalise",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Body Text"
+      },
+      {
+        "type": "select",
+        "id": "font--text",
+        "label": "Font",
+        "options": [
+          {
+            "value": "google, 'Alegreya', Helvetica, Arial, sans-serif",
+            "label": "Alegreya",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Lato', Helvetica, Arial, sans-serif",
+            "label": "Lato",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Open Sans', Helvetica, Arial, sans-serif",
+            "label": "Open Sans",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Roboto', Helvetica, Arial, sans-serif",
+            "label": "Roboto",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Quattrocento Sans', Helvetica, Arial, sans-serif",
+            "label": "Quattrocento Sans",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Source Sans Pro', Helvetica, Arial, sans-serif",
+            "label": "Source Sans Pro",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Droid Sans', Helvetica, Arial, sans-serif",
+            "label": "Droid Sans",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'PT Sans', Helvetica, Arial, sans-serif",
+            "label": "PT Sans",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Dosis', Helvetica, Arial, sans-serif",
+            "label": "Dosis",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Cabin', Helvetica, Arial, sans-serif",
+            "label": "Cabin",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Rosario', Helvetica, Arial, sans-serif",
+            "label": "Rosario",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Muli', Helvetica, Arial, sans-serif",
+            "label": "Muli",
+            "group": "Sans-serif"
+          },
+          {
+            "value": "google, 'Droid Serif', Georgia, serif",
+            "label": "Droid Serif",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Merriweather', Georgia, serif",
+            "label": "Merriweather",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Playfair Display', Georgia, serif",
+            "label": "Playfair Display",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Quattrocento', Georgia, serif",
+            "label": "Quattrocento",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Cardo', Georgia, serif",
+            "label": "Cardo",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'EB Garamond', Georgia, serif",
+            "label": "EB Garamond",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Lustria', Georgia, serif",
+            "label": "Lustria",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Abel', Georgia, serif",
+            "label": "Abel",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Ovo', Georgia, serif",
+            "label": "Ovo",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Libre Baskerville', Georgia, serif",
+            "label": "Libre Baskerville",
+            "group": "Serif"
+          },
+          {
+            "value": "google, 'Source Code Pro', Georgia, serif",
+            "label": "Source Code Pro",
+            "group": "Serif"
+          }
+        ],
+        "default": "google, 'Lato', Helvetica, Arial, sans-serif"
+      },
+      {
+        "type": "select",
+        "id": "font--text--size",
+        "label": "Base size",
+        "options": [
+          {
+            "value": "12",
+            "label": "12px"
+          },
+          {
+            "value": "13",
+            "label": "13px"
+          },
+          {
+            "value": "14",
+            "label": "14px"
+          },
+          {
+            "value": "15",
+            "label": "15px"
+          },
+          {
+            "value": "16",
+            "label": "16px"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Icon",
+        "info": "Will be scaled down to 32 x 32px"
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Sections"
+      },
+      {
+        "type": "checkbox",
+        "id": "home--auto-scroll",
+        "label": "Enable auto scroll",
+        "info": "Transistion smoothly to the next section when scrolling with your trackpad, mousewheel or arrow keys. This feature is disabled for small\/narrow screens to prevent the content from getting squished. [Learn more about this feature.](http:\/\/support.troopthemes.com\/article\/208-maker-home-page)"
+      }
+    ]
+  },
+  {
+    "name": "Cart page",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart--type",
+        "label": "Cart type",
+        "options": [
+          {
+            "value": "page",
+            "label": "Page"
+          },
+          {
+            "value": "modal",
+            "label": "Modal"
+          }
+        ],
+        "default": "modal"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart--show-note",
+        "label": "Enable order notes",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social--kickstarter--url",
+        "label": "Kickstarter",
+        "info": "https:\/\/www.kickstarter.com\/projects\/project-name"
+      },
+      {
+        "type": "text",
+        "id": "social--facebook--url",
+        "label": "Facebook",
+        "info": "https:\/\/www.facebook.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social--twitter--url",
+        "label": "Twitter",
+        "info": "https:\/\/twitter.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social--google-plus--url",
+        "label": "Google Plus",
+        "info": "https:\/\/plus.google.com\/+shopify"
+      },
+      {
+        "type": "text",
+        "id": "social--pinterest--url",
+        "label": "Pinterest",
+        "info": "https:\/\/www.pinterest.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social--instagram--url",
+        "label": "Instagram",
+        "info": "https:\/\/instagram.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social--vimeo--url",
+        "label": "Vimeo",
+        "info": "https:\/\/vimeo.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social--youtube--url",
+        "label": "Youtube",
+        "info": "https:\/\/www.youtube.com\/user\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social--tumblr--url",
+        "label": "Tumblr",
+        "info": "http:\/\/shopify.tumblr.com"
+      },
+      {
+        "type": "header",
+        "content": "Sharing options"
+      },
+      {
+        "type": "checkbox",
+        "id": "social--sharing-products",
+        "label": "Enable sharing for products"
+      },
+      {
+        "type": "checkbox",
+        "id": "social--sharing-blog",
+        "label": "Enable sharing for blog articles"
+      },
+      {
+        "type": "checkbox",
+        "id": "social--share-facebook",
+        "label": "Share on Facebook"
+      },
+      {
+        "type": "checkbox",
+        "id": "social--share-twitter",
+        "label": "Tweet on Twitter"
+      },
+      {
+        "type": "checkbox",
+        "id": "social--share-pinterest",
+        "label": "Pin on Pinterest"
+      },
+      {
+        "type": "checkbox",
+        "id": "social--share-google",
+        "label": "+1 on Google Plus"
+      },
+      {
+        "type": "checkbox",
+        "id": "social--share-email",
+        "label": "Show email",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "social--share-link",
+        "label": "Show link",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Popup",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "popup--enabled",
+        "label": "Enable",
+        "default": false
+      },
+      {
+        "label": "Mode",
+        "type": "radio",
+        "id": "popup--mode",
+        "options": [
+          {
+            "value": "auto",
+            "label": "Auto"
+          },
+          {
+            "value": "manual",
+            "label": "Manual (Open from link only)"
+          },
+          {
+            "value": "test",
+            "label": "Testing (Open each page reload)"
+          }
+        ],
+        "default": "auto"
+      },
+      {
+        "type": "select",
+        "id": "popup--days",
+        "label": "Show again after",
+        "options": [
+          {
+            "value": "2",
+            "label": "2 days"
+          },
+          {
+            "value": "7",
+            "label": "7 days"
+          },
+          {
+            "value": "14",
+            "label": "14 days"
+          },
+          {
+            "value": "30",
+            "label": "30 days"
+          },
+          {
+            "value": "90",
+            "label": "90 days"
+          }
+        ],
+        "default": "7",
+        "info": "Independent to each browser and device"
+      },
+      {
+        "type": "checkbox",
+        "id": "popup--show-image",
+        "label": "Show image",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "popup--image",
+        "label": "Image",
+        "info": "300 x 450px"
+      },
+      {
+        "type": "text",
+        "id": "popup--newsletter-title",
+        "label": "Newsletter title",
+        "default": "Sign up to our newsletter and we'll keep you posted with news and deals each week!"
+      },
+      {
+        "type": "text",
+        "id": "popup--social-title",
+        "label": "Social media title",
+        "default": "Follow us"
+      },
+      {
+        "type": "checkbox",
+        "id": "popup--social-enabled",
+        "label": "Show social icons",
+        "default": true
+      }
+    ]
+  }
+]

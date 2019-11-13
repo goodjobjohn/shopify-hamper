@@ -1,0 +1,302 @@
+{
+  "date_formats": {
+    "month_day_year": "%B %d %Y"
+  },
+  "general": {
+    "breadcrumbs": {
+      "home": "Home",
+      "collections": "Collections",
+      "product": "product",
+      "products": "products",
+      "account": "account",
+      "register": "register",
+      "addresses": "addresses",
+      "activate_account": "activate account"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page",
+      "of": "of"
+    },
+    "search": {
+      "placeholder_bar": "Search store",
+      "placeholder_modal": "Start Typing to Search",
+      "no_results": "No results were found",
+      "continue_browsing": "Click here to continue browsing.",
+      "see_all_results": "See all results",
+      "open_search_dialog": "Open search dialog"
+    },
+    "404": {
+      "page_title": "Page not found",
+      "intro": "We're sorry, but the page you're looking for could not be found.",
+      "return_links_html": "<a href=\"\/\" class=\"text-link\">Click here<\/a> to continue shopping."
+    },
+    "mailing_list": {
+      "subtitle": "Sign up to our mailing list",
+      "placeholder": "Email Address",
+      "button": "Enter",
+      "success_message": "Thanks for signing up!",
+      "email_blank": "Email field is blank"
+    },
+    "password": {
+      "title": "Opening Soon",
+      "sub_title": "This is a message for your visitors, you edit this in your admin",
+      "login_link": "Login",
+      "login_title": "Enter store using password",
+      "login_placeholder": "password",
+      "login_button": "enter",
+      "login_cancel": "Go Back",
+      "powered_by_shopify_html": "This shop will be powered by {{ shopify }}"
+    },
+    "social": {
+      "product_title": "Sharing is caring - support future editions by sharing with friends",
+      "blog_title": "Share",
+      "facebook_title": "Share on Facebook",
+      "twitter_title": "Tweet to Followers",
+      "pinterest_title": "Pin on Pinterest",
+      "google_title": "Share on Google Plus",
+      "email_title": "Send Via Email",
+      "link_title": "Copy Link"
+    }
+  },
+  "layout": {
+    "header": {
+      "follow": "Follow",
+      "account_view_link": "Account",
+      "account_logout_link": "Log out"
+    }
+  },
+  "popup": {
+    "close": "Close panel"
+  },
+  "home": {
+    "play_video": "Play Video",
+    "more_details": "More Details",
+    "view_product": "View Product",
+    "view_collection": "View Collection",
+    "view_blog": "View Blog",
+    "follow_other_feeds": "Or follow our other feeds",
+    "news_panel": {
+      "follow_facebook": "Follow on Facebook",
+      "follow_instagram": "Follow on Instagram",
+      "follow_twitter": "Follow on Twitter",
+      "follow_tumblr": "Follow on Tumblr",
+      "follow_blog": "View Blog",
+      "view_facebook": "View on Facebook",
+      "view_instagram": "View on Instagram",
+      "view_twitter": "View on Twitter",
+      "view_tumblr": "View on Tumblr",
+      "view_blog": "Read more",
+      "view_other": "View more",
+      "read_more": "Read more"
+    },
+    "onboarding": {
+      "no_content": "There are no products in this collection",
+      "featured_product": {
+        "compare_price": "$99",
+        "actual_price": "$89",
+        "title": "Product title",
+        "description": "Product description goes here."
+      }
+    }
+  },
+  "collections": {
+    "sold_out_html": "Sold Out",
+    "from": "From",
+    "no_products_feedback_html": "You have no products in your Frontpage collection.<br \/><br \/> This placeholder will appear until you <a href=\"\/admin\/collections?tutorial=Frontpage\">add a product to this collection<\/a>.",
+    "no_products_link": "Click here to add some products.",
+    "no_collections_feedback_html": "You have no collections.<br \/><br \/> These placeholders will appear until you <a href=\"\/admin\/collections?tutorial=Frontpage\">add a collection<\/a>.",
+    "no_collections_link": "Click here to add a collection.",
+    "product": "Product",
+    "products": "Products",
+    "placeholder": {
+      "price": "$19.99",
+      "title": "Product name",
+      "collection_title": "Collection name",
+      "num_items": "50 items"
+    }
+  },
+  "products": {
+    "no_product_feedback_html": "You haven't selected a product yet.<br \/><br \/> Please choose one in the Home page - featured product section of your theme settings.",
+    "add_to_cart": "Add to Cart",
+    "more_details": "More Details",
+    "back_on_kickstarter": "Back on Kickstarter",
+    "sold_out": {
+      "variant": "This option is currently sold out.",
+      "product": "This product is currently sold out.",
+      "form_notification": "Thanks! We will notify you when it becomes available!",
+      "form_description": "Please fill in the form below if you'd like to be notified when it becomes available.",
+      "feedback_invalid_email": "Please provide a valid email address.",
+      "email_placeholder": "Your Email",
+      "email_description": "Please notify me when this is back in stock",
+      "button": "Send"
+    }
+  },
+  "cart": {
+    "title": "Cart",
+    "empty_html": "<span class=\"colored-links\">Your cart is currently empty. <a href=\"\/\">Click here<\/a> to continue shopping.<\/span>",
+    "continue": "Continue Shopping",
+    "checkout": "Checkout",
+    "update_cart": "Update Cart",
+    "subtotal": "Subtotal",
+    "remove_item": "Remove this item",
+    "remove_one_item": "Remove one item",
+    "add_one_item": "Add one item",
+    "shipping_taxes_notification": "Shipping & taxes calculated at checkout",
+    "order_notes": "Leave a note with your order"
+  },
+  "blog": {
+    "filtered_by": "Filtered By",
+    "rss": "rss",
+    "article": {
+      "no_articles": "No articles found.",
+      "date": "Date",
+      "back_to_blog": "Back To Blog",
+      "twitter": "Twitter",
+      "written_by": "Written By",
+      "comment": "Comment",
+      "comments": "Comments",
+      "read_more": "Read more",
+      "previous": "Previous",
+      "next": "Next",
+      "tags": "Tags"
+    },
+    "comment": {
+      "title": "Leave a comment",
+      "moderated_notice": "Comments have to be approved before showing up",
+      "moderated_feedback": "Thanks for your comment. It will have to be approved by the blog owner first before showing up.",
+      "success_feedback": "Thank you, your comment has been posted.",
+      "error": "Not all the fields have been filled out correctly.",
+      "your_name": "Your Name",
+      "your_email": "Your Email",
+      "button": "Post Comment"
+    },
+    "sidebar": {
+      "tags": "Tags",
+      "tags_show_all": "All"
+    }
+  },
+  "contact_page": {
+    "success_feedback": "Thanks for contacting us! We'll get back to you shortly.",
+    "error_feedback": "We were unable to send your message, please correct the following:",
+    "name": "Your Name",
+    "email": "Email",
+    "phone": "Phone Number",
+    "message": "Message",
+    "button": "Send"
+  },
+  "customer": {
+    "account": {
+      "page_title": "My Account",
+      "orders": "Orders",
+      "addresses": "Addresses",
+      "order": "Order",
+      "date": "Date",
+      "payment_status": "Payment Status",
+      "fulfillment_status": "Fulfillment Status",
+      "total": "Total",
+      "no_orders": "You haven't placed any orders yet.",
+      "view_addresses": "View Addresses",
+      "logout": "Logout"
+    },
+    "activate_account": {
+      "page_title": "Activate Account",
+      "subtext": "Create your password to activate your account.",
+      "password": "Password",
+      "password_confirm": "Confirm Password",
+      "submit": "Activate Account",
+      "cancel": "Decline Invitation"
+    },
+    "addresses": {
+      "page_title": "Your Addresses",
+      "default": "(Default Address)",
+      "add_new": "Add a New Address",
+      "edit_address": "Edit address",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "company": "Company",
+      "address1": "Address1",
+      "address2": "Address2",
+      "city": "City",
+      "country": "Country",
+      "province": "Province",
+      "zip": "Postal\/Zip Code",
+      "phone": "Phone",
+      "set_default": "Set as default address",
+      "add": "Add address",
+      "update": "Update Address",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "login": {
+      "page_title": "Login",
+      "email": "Email",
+      "password": "Password",
+      "forgot_password": "Forgot your password?",
+      "new_account": "Register a New Account",
+      "reset_password": "Reset Password",
+      "reset_instructions": "We will send you an email to reset your password.",
+      "submit": "Submit",
+      "sign_in": "Sign In",
+      "cancel": "Cancel",
+      "guest_title": "Guest login",
+      "guest_continue": "Continue as a guest"
+    },
+    "order": {
+      "page_title": "Order - {{ name }}",
+      "cancelled": "Order Cancelled",
+      "billing_address": "Billing Address",
+      "payment_status": "Payment Status",
+      "shipping_address": "Shipping Address",
+      "fulfillment_status": "Fulfillment Status",
+      "item": "Item",
+      "product": "Product",
+      "sku": "SKU",
+      "price": "Price",
+      "quantity": "Quantity",
+      "total": "Total",
+      "fulfilled_at": "Fulfilled {{ date }}",
+      "subtotal": "Subtotal",
+      "fulfilled": "fulfilled",
+      "unfulfilled": "unfulfilled",
+      "partial": "partial",
+      "paid": "paid",
+      "pending": "pending",
+      "authorized": "authorized",
+      "abandoned": "abandoned",
+      "refunded": "refunded",
+      "voided": "voided",
+      "discount": "Discount:"
+    },
+    "register": {
+      "page_title": "Create Account",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Create",
+      "login": "Login to an Existing Account"
+    },
+    "reset_password": {
+      "page_title": "Reset Password",
+      "password": "Password",
+      "password_confirmation": "Password Confirmation",
+      "submit": "Reset Password"
+    }
+  },
+  "gift_cards": {
+    "issued": {
+      "title": "Here's your {{ value }} gift card for {{ shop }}!",
+      "subtext": "Here's your gift card!",
+      "disabled": "Disabled",
+      "expired": "Expired on {{ expiry }}",
+      "active": "Expires on {{ expiry }}",
+      "redeem": "Use this code at checkout to redeem your gift card",
+      "shop_link": "Start shopping",
+      "print": "Print",
+      "left": "left"
+    }
+  }
+}

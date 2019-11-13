@@ -1,0 +1,29 @@
+<header class="layout--header spacing--5x logo--height-{{ settings.header--logo-height }}">
+
+  <noscript>
+    <div class="container">
+      <div class="left-side">
+        {% include 'framework--logo' %}
+        {% include 'partial--main-menu' %}
+      </div>
+      <div class="right-side fw--align--right">
+        <a  style="padding: 0 15px;" href="{{ shop.url}}/cart">{{ 'cart.title' | t }}</a>
+      </div>
+    </div>
+  </noscript>
+
+  <div class="container show-after-js">
+    <div class="left-side">
+      {% include 'framework--logo' %}
+      {% include 'partial--main-menu' %}
+    </div>
+
+    <div class="right-side fw--align--right">
+      {% include 'layout--login' %}
+      {% include 'partial--popup' %}
+      {% include 'framework--cart' %}
+      {% include 'layout--minimized-menu' %}
+    </div>
+  </div>
+
+</header>

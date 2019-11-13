@@ -1,0 +1,35 @@
+{% assign view = layout--login %}
+{% if shop.customer_accounts_enabled %}
+<div class="layout--login">
+
+
+
+    {% if view == 'sidebar' %}
+      <div class="spacer spacing--2"></div>
+      <div class="divider spacing--2"></div>
+      <p class="spacing--3x text--italic font--size-2">{{ 'layout.slide_out_panel.have_an_account' | t }}</p>
+    {% endif %}
+
+
+
+    {% if customer %}
+      {% assign view_account_link = 'layout.header.account_view_link' | t %}
+      {% capture view_account_link %}<a href="/account">{{ view_account_link }}</a>{% endcapture %}
+      {{ view_account_link }}
+    {% else %}
+      {% assign login_link = 'layout.header.account_view_link' | t %}
+      {% assign login_link = login_link | customer_login_link %}
+
+      {% if shop.customer_accounts_optional %}
+        {{ login_link }}
+      {% else %}
+        {{ login_link }}
+      {% endif %}
+    {% endif %}
+
+
+
+
+  {% if view == 'modal' %}<div class="spacer spacing--4y"></div>{% endif %}
+</div>
+{% endif %}

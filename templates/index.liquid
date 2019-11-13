@@ -1,0 +1,20 @@
+{% capture panels %}
+  {{ settings.home--layout-1 }},
+  {{ settings.home--layout-2 }},
+  {{ settings.home--layout-3 }},
+  {{ settings.home--layout-4 }},
+  {{ settings.home--layout-5 }},
+  {{ settings.home--layout-6 }},
+  {{ settings.home--layout-7 }},
+  {{ settings.home--layout-8 }}
+{% endcapture %}
+
+<div class="partial--fullscreen-panels">
+  <div class="panel-wrapper">
+
+    {{ content_for_index }}
+
+    {% section 'footer' %}
+
+  </div>
+</div>

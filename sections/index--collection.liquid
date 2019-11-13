@@ -1,0 +1,157 @@
+{% assign bg_color = settings.home--collection--bg-color %}
+
+{% capture image %}home--collection.jpg{% endcapture %}
+{% assign collection = section.settings.collection %}
+{% assign collection = collections[collection] %}
+
+{% assign placeholders_active = true %}
+{% if collection.handle.size > 0 or section.settings.image %}
+  {% assign placeholders_active = false %}
+{% endif %}
+
+{% if collection.handle.size > 0 and collection.products.size == 0 %}
+  {% assign errors_active = true %}
+{% endif %}
+
+{% if placeholders_active %}
+  {% assign collection_title = 'collections.placeholder.collection_title' | t %}
+{% else %}
+  {% assign collection_title = collection.title %}
+{% endif %}
+
+<div
+  class="template--index--collection fullscreen-panel"
+  data-section-id="{{ section.id }}"
+  data-section-type="index_collection"
+  data-js-class="IndexCollection"
+>
+  <div class="fw--slider" data-js-class="FrameworkSlider" data-navigation="true" data-pagination="false" data-pagination-numbers="false">
+
+    {% if errors_active %}
+      <div class="slide">
+        <h3 class="text-align--center font--subheading fw--align--center-y">
+          {{ 'home.onboarding.no_content' | t }}
+        </h3>
+      </div>
+    {% elsif section.settings.image %}
+      {% assign image_url = section.settings.image | img_url: '1600x800' %}
+      <div class="slide intro-slide">
+        <div class="image-panel full-height" style="background-image: url('{{ image_url }}');">
+          <h2 class="fw--align--center-y text-align--center font--heading">{{ collection_title }}</h2>
+          <a class="full-panel" href="{{ collection.url }}"></a>
+        </div>
+      </div>
+    {% endif %}
+
+    {% for product in collection.products limit: section.settings.max-products %}
+{%- include 'bold-product' with product, hide_action: 'skip' -%}
+      <div class="slide fw--blocks">
+        <div class="wrapper full-height text-align--center fw--align--center-y partial--product">
+          {% assign image = product.images[0] %}
+          <div class="fw--align--fill-y--dynamic">
+            <a href="{{ product.url | within: collection }}">
+              <img src="{{ image.src | product_img_url: '1024x1024' }}"
+              class="fw--align--center-y"
+              rel="gallery"
+              data-image-id="{{ image.id }}" />
+            </a>
+          </div>
+
+          <div class="text-panel fw--align--fill-y--fixed">
+            <h2 class="title spacing--3y font--heading">{{ product.title }}</h2>
+            <a class="button" href="{{ product.url | within: collection }}">{{ 'home.more_details' | t }}</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+
+    {% if placeholders_active %}
+      {% assign image_url = section.settings.image | img_url: '1600x800' %}
+      <div class="slide with-placeholder intro-slide">
+        <div class="image-panel full-height">
+
+          {% include "framework--placeholder", type: "image" %}
+          <h2 class="fw--align--center-y text-align--center font--heading">{{ collection_title }}</h2>
+        </div>
+      </div>
+
+      {% for i in (1..3) %}
+        <div class="slide with-placeholder fw--blocks">
+          <div class="wrapper full-height text-align--center fw--align--center-y partial--product">
+
+            <div class="fw--align--fill-y--dynamic spacing--4y">
+              {% include "framework--placeholder",
+              type: "product",
+              aspect_ratio: "600x800",
+              placeholder_index: i,
+              custom_classes: "full-height" %}
+            </div>
+
+            <div class="text-panel fw--align--fill-y--fixed">
+              <h2 class="title spacing--3y font--heading">{{ 'collections.placeholder.title' | t }}</h2>
+              <a class="button" href="#">{{ 'home.more_details' | t }}</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% unless errors_active or placeholders_active or collection.handle.size == 0 %}
+      <div class="slide">
+        <div class="text-panel text-align--center fw--align--center-y">
+          <h2 class="title spacing--3y font--heading">{{ collection_title }}</h2>
+          <a class="button" href="{{ collection.url }}">{{ 'home.view_collection' | t }}</a>
+        </div>
+      </div>
+    {% endunless %}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "select",
+      "id": "max-products",
+      "label": "Maximum products to show in collection",
+      "options": [
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        },
+        {
+          "value": "10",
+          "label": "10"
+        }
+      ],
+      "default": "5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "paragraph",
+      "content": "Intro slide title color pulls from collections title."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured collection",
+      "category": "Collection"
+    }
+  ]
+}
+{% endschema %}

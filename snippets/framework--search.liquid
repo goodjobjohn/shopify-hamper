@@ -1,0 +1,94 @@
+{% assign search_type = framework--search %}
+
+{% if search_type == 'bar' %}
+  <div class="fw--search bar clearfix" data-js-class="FrameworkSearch" data-view="list">
+    <form  action="/search" method="get" role="search">
+      <input type="hidden" name="type" value="product" />
+      {% include 'snippet-symbol' with 'search' %}
+      <input
+        name="q"
+        type="text"
+        placeholder="{{ 'general.search.placeholder_bar' | t }}"
+        class="text-input"
+      >
+    </form>
+
+    <div class="feedback">
+      <div class="loading"><span class="animation tiny"></span></div>
+      <div class="no-results">{{ 'general.search.no_results' | t }}</div>
+    </div>
+
+    <div class="results list vertical spacing--2y fw--blocks"></div>
+
+  </div>
+{% endif %}
+
+{% if search_type == 'modal' %}
+  <div class="modal search spacing--3x" data-js-class="FrameworkModal">
+    <a aria-label="{{ 'general.search.open_search_dialog' | t }}" tabindex="0" class="toggle modal--link">
+      {% include 'snippet-symbol' with 'search' %}
+    </a>
+
+    <div class="fw--search modal--content" data-js-class="FrameworkSearch" data-view="grid">
+      <div class="header spacing--4">
+        <form  action="/search" method="get" role="search">
+          <input type="hidden" name="type" value="product" />
+          <input name="q" type="text" placeholder="{{ 'general.search.placeholder_modal' | t }}" class="text-input" />
+        </form>
+      </div>
+      <div class="spacer spacing--3y"></div>
+      <div class="feedback">
+        <div class="loading"><span class="animation"></span></div>
+        <div class="no-results colored-links">{{ 'general.search.no_results' | t }} <a href="{{ shop.url }}/collections/all">{{ 'general.search.continue_browsing' | t }}</a></div>
+      </div>
+
+      <div class="results fw--blocks spacing--3 clear-after--medium-3 clear-after--large-4" data-ie8-clear-after="4"></div>
+
+    </div>
+
+  </div>
+{% endif %}
+
+{% if search_type == 'page' %}
+  <div class="fw--search view--page" data-js-class="FrameworkSearch">
+  {% if settings.header--logo-height == "100" %}
+    <div class="spacer spacing--5y"></div>
+  {% endif %}
+  {% if settings.header--logo-height == "75" %}
+    <div class="spacer spacing--4y"></div>
+  {% endif %}
+
+
+    <header class="spacing--4">
+      <form  action="/search" method="get" role="search">
+        <input type="hidden" name="type" value="product" />
+        {% include 'snippet-symbol' with 'search' %}
+        <input
+          name="q"
+          type="text"
+          placeholder="{{ 'general.search.placeholder_bar' | t }}"
+          value="{{ search.terms }}" class="text-input"
+        >
+      </form>
+
+      <div class="feedback">
+        {% if search.terms.size > 0 and search.results.size == 0 %}
+          <p class="spacing--3y text--italic">{{ 'general.search.no_results' | t }}</p>
+        {% endif %}
+      </div>
+    </header>
+
+
+    <section class="fw--blocks spacing--4 clear-after--medium-6 clear-after--large-6" data-ie8-clear-after="6">
+      {% for product in search.results %}
+{%- include 'bold-product' with product, hide_action: 'skip' -%}
+        <div class="width--medium-6 width--large-6">
+          {% assign odd_or_even = 'odd' %}
+          {% include 'partial--product' with 'grid' %}
+        </div>
+      {% endfor %}
+    </section>
+  </div>
+
+{% endif %}
+

@@ -1,0 +1,369 @@
+{% assign index = template--index--featured-content %}
+
+{% assign has_image = false %}
+{% assign has_video = false %}
+{% assign has_copy = false %}
+{% assign has_link = false %}
+{% assign has_button = false %}
+{% assign has_bg_color = false %}
+
+
+{% assign has_image = section.settings.image.size %}
+
+{% if has_image %}
+  {% assign panel_alignment = section.settings.text-position %}
+  {% capture image %}
+    {{ section.settings.image | img_url: '1400x800' | img_tag: '', 'fw--align--center' }}
+  {% endcapture %}
+{% else %}
+  {% assign panel_alignment = 'middle' %}
+{% endif %}
+
+{% assign image_layout = section.settings.image-layout %}
+
+{% capture bg_color %}home--custom--bg-color-{{ index }}{% endcapture %}
+{% assign bg_color = settings[bg_color] %}
+{% if bg_color.size > 0  %}
+  {% assign has_bg_color = true %}
+{% endif %}
+
+{% if section.settings.sub-title.size > 0 %}
+  {% assign has_copy = true  %}
+{% endif %}
+
+{% if section.settings.body.size > 0 %}
+  {% assign has_copy = true  %}
+{% endif %}
+
+{% if section.settings.featured-content-title.size > 0 %}
+  {% assign has_copy = true  %}
+{% endif %}
+
+{% if section.settings.link-title.size > 0 %}
+  {% assign has_button = true  %}
+{% endif %}
+
+{% assign link_url = section.settings.link-url %}
+{% if section.settings.link-title.size > 0 %}
+  {% assign has_button = true %}
+{% elsif link_url.size > 0 %}
+  {% assign has_link = true %}
+{% endif %}
+
+{% assign video = section.settings.video | escape %}
+{% assign video_src = '' %}
+{% assign attributes = video | split: ' ' %}
+{% for attribute in attributes %}
+  {% assign match = attribute | truncate: 4, '' %}
+  {% if match == 'src=' or match == 'http' %}
+    {% assign video_src = attribute | replace: 'src=', '' | replace: '"', '' | replace: "'", ""  %}
+  {% endif %}
+{% endfor %}
+{% if video_src.size > 0 %}
+  {% assign has_video = true %}
+{% endif %}
+
+{% assign text_panel_width = 12  %}
+{% assign image_panel_width = 12  %}
+{% if panel_alignment == 'left' or panel_alignment == 'right' %}
+  {% if section.settings.text-width %}
+    {% assign text_panel_width = 4  %}
+    {% assign image_panel_width = 8  %}
+  {% else %}
+    {% assign text_panel_width = 6  %}
+    {% assign image_panel_width = 6  %}
+  {% endif %}
+{% endif %}
+
+{% unless has_copy or has_button %}
+  {% assign image_panel_width = 12  %}
+{% endunless %}
+
+{% capture featured_content_classes %}
+  template--index--featured-content
+  fullscreen-panel
+  index--{{index}}
+  {% if section.settings.show-border %}show-border{% endif %}
+  {% if show_top_padding %}show-top-padding{% endif %}
+{% endcapture %}
+{% include 'framework--util--class-list' with featured_content_classes %}
+{% assign featured_content_classes = class_list %}
+
+<div
+  class="{{ featured_content_classes }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="index_featured_content"
+  data-js-class="IndexFeaturedContent"
+>
+
+  {% capture container_classes %}
+    panel-align--{{ panel_alignment }}
+    panel-width--{{ text_panel_width }}
+    show--medium-large
+    full-height
+    fw--blocks
+  {% endcapture %}
+  {% include 'framework--util--class-list' with container_classes %}
+  {% assign container_classes = class_list %}
+
+  <div
+    class="container {{ container_classes }}"
+    style="background-color: {{ section.settings.background-color }};"
+  >
+
+    {% if panel_alignment == 'right' or panel_alignment == 'bottom' or panel_alignment == 'middle' %}
+      {% capture image_panel_classes %}
+        image-panel
+        full-height
+        width--{{ image_panel_width }}
+        image-layout--{{ image_layout }}
+        {% if panel_alignment == 'bottom' %}fw--align--fill-y--dynamic{% endif %}
+      {% endcapture %}
+      {% include 'framework--util--class-list' with image_panel_classes %}
+      {% assign image_panel_classes = class_list %}
+
+      {% if has_image %}
+        <div class="{{ image_panel_classes }}"
+        style="background-image: url('{{ section.settings.image | img_url: '1400x1000' }}');">
+          <div class="image-wrapper">
+            {{ image }}
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% if has_copy or has_button %}
+      {% capture text_panel_classes %}
+        text-panel
+        width--medium-{{ text_panel_width }}
+        {% if panel_alignment == 'middle' %}fw--align--center-x fw--align--center-y{% endif %}
+        {% if panel_alignment == 'top' or panel_alignment == 'bottom' %}
+          fw--align--fill-y--fixed
+        {% endif %}
+      {% endcapture %}
+      {% include 'framework--util--class-list' with text_panel_classes %}
+      {% assign text_panel_classes = class_list %}
+
+
+      <div class="{{ text_panel_classes }}">
+        {% capture temp_class %}
+          {% if panel_alignment == "left" or panel_alignment == "right" %}
+            fw--align--center-y
+          {% endif %}
+        {% endcapture %}
+        <div class="{{ temp_class }}">
+          {% if section.settings.sub-title.size > 0 %}
+            <p class="sub-title font--accent">{{ section.settings.sub-title | escape }}</p>
+          {% endif %}
+  
+
+          {% if section.settings.featured-content-title.size > 0 %}
+            <h2 class="title font--heading">
+              {{ section.settings.featured-content-title }}
+            </h2>
+          {% endif %}
+          {% if has_video %}
+            <div class="modal" data-js-class="FrameworkModal" data-video="true">
+              <a tabindex="0"
+              href="{{ video }}"
+              class="modal--link video-link button no-hover"
+              data-video="{{ video_src }}">
+                {% include 'snippet-symbol' with 'play-circle-outline' %}
+                {{ 'home.play_video' | t }}
+              </a>
+              <div class="modal--content full-width">
+                <div class="responsive-video" data-video="{{ video_src }}"></div>
+              </div>
+            </div>
+
+          {% elsif has_button %}
+            <div class="call-to-action">
+              <a href="{{ link_url }}" class="button no-hover ">
+                {{ section.settings.link-title | escape }}
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% elsif has_link %}
+      <a class="full-panel" href="{{ link_url }}"></a>
+    {% endif %}
+
+    {% if panel_alignment == 'left' or panel_alignment == 'top' %}
+      {% capture image_panel_classes %}
+        image-panel
+        full-height
+        width--{{ image_panel_width }}
+        image-layout--{{ image_layout }}
+        {% if panel_alignment == 'top' %}fw--align--fill-y--dynamic{% endif %}
+      {% endcapture %}
+      {% include 'framework--util--class-list' with image_panel_classes %}
+      {% assign image_panel_classes = class_list %}
+
+      {% if has_image %}
+        <div class="{{ image_panel_classes }}"
+        style="background-image: url('{{ section.settings.image | img_url: '1400x1000' }}');">
+          <div class="image-wrapper">
+            {{ image }}
+          </div>
+        </div>
+      {% endif %}
+
+    {% endif %}
+  </div>
+
+
+  {% comment %} small screens {% endcomment %}
+  <div
+    class="container show--small panel-align--bottom panel-width--12 full-height fw--blocks"
+    style="background-color: {{ section.settings.background-color }};"
+  >
+    {% if has_image %}
+      <div class="image-panel full-height fw--align--fill-y--dynamic image-layout--{{ image_layout }}"
+      style="background-image: url('{{ section.settings.image | img_url: '1400x1000' }}');">
+        <div class="image-wrapper">
+          {{ image }}
+        </div>
+      </div>
+    {% endif %}
+    {% if has_copy or has_button %}
+
+      {% capture text_panel_classes %}
+        text-panel
+        width--medium-{{ text_panel_width }}
+        fw--align--fill-y--fixed
+        {% unless has_image %}
+          fw--align--center-y
+        {% endunless %}
+      {% endcapture %}
+      {% include 'framework--util--class-list' with text_panel_classes %}
+      {% assign text_panel_classes = class_list %}
+
+      <div class="{{ text_panel_classes }}">
+        {% if section.settings.sub-title.size > 0 %}
+          <p class="sub-title font--accent">{{ section.settings.sub-title | escape }}</p>
+        {% endif %}
+       
+
+        {% if section.settings.featured-content-title.size > 0 %}
+          <h2 class="title font--heading">
+            {{ section.settings.featured-content-title }}
+          </h2>
+        {% endif %}
+
+        {% if has_video %}
+          <div class="modal" data-js-class="FrameworkModal" data-video="true">
+            <a tabindex="0"
+            href="{{ video }}"
+            class="modal--link video-link button no-hover"
+            data-video="{{ video_src }}">
+              {% include 'snippet-symbol' with 'play-circle-outline' %}
+              {{ 'home.play_video' | t }}
+            </a>
+            <div class="modal--content full-width">
+              <div class="responsive-video" data-video="{{ video_src }}"></div>
+            </div>
+          </div>
+        {% elsif has_button %}
+          <div class="call-to-action">
+            <a href="{{ link_url }}" class="button no-hover">
+              {{ section.settings.link-title | escape }}
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    {% elsif has_link %}
+      <a class="full-panel" href="{{ link_url }}"></a>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Image with text overlay",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background-color",
+      "label": "Background color",
+      "default": "#fafafa"
+    },
+    {
+      "type": "checkbox",
+      "id": "show-border",
+      "label": "Show border",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "label": "Image",
+      "info": "Check the documentation for [recommended resolutions](http:\/\/support.troopthemes.com\/article\/208-maker-home-page)",
+      "id": "image"
+    },
+    {
+     "type": "radio",
+     "label": "Image layout",
+     "id": "image-layout",
+     "options": [
+        { "value": "fill", "label": "Fill"},
+        { "value": "center", "label": "Center"}
+      ]
+    },
+    {
+      "type": "select",
+      "id": "text-position",
+      "label": "Text position",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "middle", "label": "Middle" },
+        { "value": "bottom", "label": "Bottom" },
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "info": "Drops below for mobile. Centers when image is disabled."
+    },
+    {
+      "type": "checkbox",
+      "id": "text-width",
+      "label": "Enable narrow text for left/right positions",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "sub-title",
+      "label": "Subtitle",
+      "default": "Add your subtitle here"
+    },
+    {
+      "type": "richtext",
+      "id": "featured-content-title",
+      "label": "Title",
+      "default": "<p>Add your title here</p>"
+    },
+
+    {
+      "type": "text",
+      "id": "link-title",
+      "label": "Button text",
+      "default": "Link to content"
+    },
+    {
+      "type": "url",
+      "id": "link-url",
+      "label": "Link to"
+    },
+    {
+      "type": "text",
+      "id": "video",
+      "label": "Video URL",
+      "info": "(Kickstarter, Vimeo or YouTube)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image with text overlay",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,41 @@
+{% assign source = partial--mailing-list %}
+
+{% assign show = true %}
+{% if section.settings.show-mailing-list == false and source contains 'Product' %}
+  {% assign show = false %}
+{% endif %}
+
+{% if show %}
+  <div class="partial--mailing-list" id="newsletter">
+
+    {% assign newsletter_subtitle = 'general.mailing_list.subtitle' | t %}
+
+    {% if newsletter_subtitle.size > 0 and source != 'popup' %}
+      <h3 class="font--subheading">{{ newsletter_subtitle }}</h3>
+      <div class="spacing--2y spacer"></div>
+    {% endif %}
+
+    {% form 'customer' %}
+      {% if form.posted_successfully? and source != 'popup' %}
+        <p class="success feedback">{{ 'general.mailing_list.success_message' | t }}</p>
+      {% endif %}
+      {% if form.errors and source != 'popup' %}
+        <p class="error feedback">
+        {% for field in form.errors %}
+          {{ field }} {{ form.errors.messages[field] }}
+        {% endfor %}
+        </p>
+      {% endif %}
+      <input type="hidden" id="contact_tags" name="contact[tags]" value="{{ source }}" />
+      <input type="hidden" id="newsletter-first-name" name="contact[first_name]" value="Subscriber" />
+      <input type="hidden" id="newsletter-last-name" name="contact[last_name]" value="Newsletter" />
+      <input type="email" required placeholder="{{ 'general.mailing_list.placeholder' | t }}" name="contact[email]" />
+      <input type="submit" class="button prefix" value="{{ 'general.mailing_list.button' | t }}" name="subscribe" id="email-submit" />
+
+      {% if form.posted_successfully? or form.errors %}
+        <script>window.location.hash = '#newsletter';</script>
+      {% endif %}
+    {% endform %}
+  </div>
+{% endif %}
+

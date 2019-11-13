@@ -1,0 +1,63 @@
+<footer
+  class="layout--footer fw--blocks font--accent font--size-1 spacing--5x"
+  data-js-class="Footer"
+  data-section-id="{{ section.id }}"
+  data-section-type="footer"
+>
+  <div class="width--medium-7 text-align--left left-column">
+    <ul class="footer-menu fw--blocks list spacing--3 compact--3x" role="navigation">
+      {% for link in linklists[section.settings.menu].links %}
+        <li><a href="{{ link.url }}" title="{{ link.title }}">{{ link.title }}</a></li>
+      {% endfor %}
+    </ul>
+
+    {% unless shop.enabled_payment_types == empty %}
+      {% if section.settings.show-payment-icons %}
+        <div class="payment-icons">
+          <ul class="fw--blocks list spacing--3x">
+            {% for type in shop.enabled_payment_types %}
+              <li>
+                {% capture icon_name %}payment-{{type}}{% endcapture %}
+                {% include 'snippet-symbol' with icon_name %}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endunless %}
+  </div>
+
+  <div class="width--medium-5 text-align--right right-column fw--blocks list spacing--3">
+    {% if section.settings.show-copyright-text %}
+      <span class="spacing--2x">&copy; {{ 'now' | date: '%Y' }} {{ shop.name | link_to: '/' }}.</span>
+    {% endif %}
+    
+  </div>
+
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "footer"
+    },
+    {
+      "type": "checkbox",
+      "id": "show-copyright-text",
+      "label": "Show copyright text",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show-payment-icons",
+      "label": "Show payment icons",
+      "default": false
+    }
+  ]
+}
+{% endschema %}

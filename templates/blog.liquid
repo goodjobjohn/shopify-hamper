@@ -1,0 +1,69 @@
+{% paginate blog.articles by 18 %}
+<div class="spacing--4y"></div>
+<div class="text-align--center">
+  <a href="{{ blog.url}}"><h1 class="page-title font--heading">{{ blog.title }}</h1></a>
+  <a class="rss-feed font--accent" href="{{ shop.url }}{{ blog.url }}.atom">RSS</a>
+
+
+  {% if current_tags != blank %}
+    <div class="spacer spacing--4y"></div>
+    <h2 class="font--size-3 font--heading"><span class="text--uppercase">{{ 'blog.filtered_by' | t }}</span> {{ current_tags }}</h4>
+  {% endif %}
+</div>
+
+
+
+<!-- Begin content -->
+<div class="fw--blocks spacing--5 spacing--small-3 clear-after--3" data-ie8-clear-after="3">
+  {% if blog.articles.size <= 0 %}
+    <h2 class="font--heading">{{ 'blog.article.no_articles' | t }}</h2>
+  {% endif %}
+
+  {% for article in blog.articles %}
+
+    <div class="article width--medium-4">
+      <a href="{{ article.url }}" class="text-colored">
+        {% assign hero_image = '' %}
+        {% if article.image %}
+          {% assign hero_image =  article.image | article_img_url: '1024x1024' | img_tag %}
+        {% else %}
+          {% assign html_tags = article.excerpt_or_content | split: '<' %}
+          {% for html_tag in html_tags %}
+            {% assign img_check = html_tag | slice: 0,3 %}
+            {% if img_check == 'img' %}
+              {% assign img_tag = html_tag | split: '>' %}
+              {% assign hero_image = '<' | append: img_tag.first | append: '>' %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {% if hero_image.size > 0 %}
+          <div class="hero-image">{{ hero_image }}</div>
+          <div class="spacing--2y"></div>
+        {% endif %}
+
+        <h3 class="item-title font--size-3">{{ article.title | truncate: 70 }}</h3>
+        <div class="date spacing--2y font--size-2 text--uppercase">{{  article.published_at | date: format: 'month_day_year' }}</div>
+        {% if article.excerpt != blank %}
+          <div class="content spacing--2y excerpt">
+            {{ article.excerpt_or_content }}
+          </div>
+        {% else %}
+          <div class="content spacing--2y">
+            {{ article.excerpt_or_content | strip_html | strip | truncate: 120  }}
+          </div>
+        {% endif %}
+      </a>
+    </div>
+  {% endfor %}
+</div>
+
+
+{% if paginate.pages > 1 %}
+  <div class="width--12 text-align--center">
+    {% include 'framework--pagination' %}
+  </div>
+{% endif %}
+
+{% endpaginate %}

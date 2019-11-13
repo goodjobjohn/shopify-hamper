@@ -1,0 +1,60 @@
+<!-- Begin comments -->
+{% if blog.comments_enabled? %}
+<section id="comments" class="comments">
+
+  {% if article.comments.size > 0 %}
+  <h4 class="title font--size-3 text--uppercase text--bold">{{ 'blog.article.comments' | t }}</h4>
+
+  {% for comment in article.comments %}
+    <div id="comment-{{ comment.id }}" class="comment clearfix spacing--4 spacing--small-3">
+      <p class="author text--bold text--capitalise">{{ comment.author }} - <span class="date">{{ comment.created_at | date: format: 'month_day_year' }}</span></p>
+      <div class="comment-content">{{ comment.content }}</div>
+    </div> <!-- /.comment -->
+  {% endfor %}
+
+  {% if paginate.pages > 1 %}
+    <div class="width--12 text-align--center">
+      {% include 'framework--pagination' with 'blog-comments' %}
+    </div>
+    <div class="spacing--3y"></div>
+  {% endif %}
+
+  {% endif %}
+
+  <div class="comment-form">
+    {% form article %}
+    <h4 class="title font--size-3 text--uppercase text--bold">{{ 'blog.comment.title' | t }}</h4>
+    <div class="spacer spacing--2y"></div>
+
+    <div class="spacing--4x spacing--small-1x spacing--3y">
+      {% if form.posted_successfully? %}
+        {% if blog.moderated? %}
+        <p class="subtext success">{{ 'blog.comment.moderated_feedback' | t }}</p>
+        {% else %}
+        <p class="subtext success">{{ 'blog.comment.success_feedback' | t }}</p>
+        {% endif %}
+      {% endif %}
+
+      {% if form.errors %}
+      <p class="subtext error">{{ 'blog.comment.error' | t }}</p>
+      {% endif %}
+
+      <label for="comment_author">{{ 'blog.comment.your_name' | t }}</label>
+      <input type="text" id="comment_author" name="comment[author]" size="40" class="text" />
+      <label for="comment_email">{{ 'blog.comment.your_email' | t }}</label>
+      <input type="text" id="comment_email" name="comment[email]" size="40" class="text" />
+      <label for="comment_body">{{ 'blog.article.comment' | t }}</label>
+      <textarea id="comment_body" name="comment[body]" cols="40" rows="10" class="text">{{form.body}}</textarea>
+
+      <input type="submit" value="{{ 'blog.comment.button' | t }}" class="button" id="comment-submit" />
+
+      {% if blog.moderated? %}
+      <div class="notice font--size-2">{{ 'blog.comment.moderated_notice' | t }}</div>
+      {% endif %}
+
+      {% endform %}
+    </div>
+  </div>
+</section>
+{% endif %}
+<!-- End comments -->

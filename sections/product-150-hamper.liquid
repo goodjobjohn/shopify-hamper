@@ -1,0 +1,161 @@
+
+{% assign source = 'Product - ' | append: product.title %}
+<div
+  data-section-id="{{ section.id }}"
+  data-section-type="product_page"
+  data-js-class="ProductPage"
+>
+
+  {% if section.settings.enable-modal %}
+  <div class="modal" data-js-class="FrameworkModal">
+  {% endif %}
+    <div class="product fw--blocks">
+
+      {% capture featured_image_classes %}
+        featured-image
+        partial--fullscreen-panel
+        show-after-js
+        text-align--center
+        {% if settings.bg-color--body == settings.bg-color--panel %} same-color{% endif %}
+      {% endcapture %}
+
+      <div class="{{ featured_image_classes }}">
+        <div class="container spacing--4">
+
+          {% if section.settings.position-title-above %}
+            <a class="title fw--align--center-y show--large" href="{{ product.url }}">
+              <h1 class="font--heading">
+                {{ product.title }}
+              </h1>
+            </a>
+          {% endif %}
+
+          {% if section.settings.enable-modal %}<a tabindex="0" class="modal--link width--12">{% endif %}
+            <div class="image-wrapper">
+              <img class="fw--align--center-y"
+              src="{{ product.featured_image.src | product_img_url: '1024x1024' }}"
+              rel="gallery"
+              data-image-id="{{ product.featured_image.id }}"
+              alt="{{ image.alt | escape }}" />
+            </div>
+          {% if section.settings.enable-modal %}
+            </a>
+          {% endif %}
+
+        </div>
+      </div>
+
+      <div class="{{ add_to_cart_panel_classes }}">
+        {% include 'partial--product-150' with 'product-page' %}
+      </div>
+
+      <div class="content spacing--5y fw--blocks">
+        <div class="column left-side width--6"></div>
+        <div class="column right-side width--6"></div>
+
+        <div class="single-column text-align--center">
+          
+
+          {% assign show_mailing_list = section.settings.show-mailing-list %}
+
+        
+
+          {% if show_mailing_list %}
+            <div class="block">
+              <div class="">
+                {% include 'partial--mailing-list' with source %}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      {% if settings.social--sharing-products %}
+        <div class="text-align--center">
+          {% include 'partial--social-media' with 'product' %}
+        </div>
+        <div class="clearfix"></div>
+      {% endif %}
+    </div>
+
+  {% if section.settings.enable-modal %}
+    {% for image in product.images %}
+      <div class="modal--content">
+        <img
+          src="{{ image.src | product_img_url: '1024x1024' }}"
+          rel="gallery"
+          data-image-id="{{ image.id }}"
+          alt="{{ image.alt | escape }}"
+        >
+      </div>
+    {% endfor %}
+    </div>
+  {% endif %}
+
+
+  {% if section.settings.show-related-collection %}
+    {% include 'template--product--related-collection' %}
+  {% endif %}
+
+</div>
+
+<script>
+  theme.product = {};
+  theme.product.json = {{ product | json }};
+  theme.product.id = {{ product.id }};
+
+  var selectCallback = function(variant, selector) {
+    theme.product_page.variantSelected(variant, selector);
+    // add your selectCallback code here...
+
+  };
+
+  jQuery(function($) {
+    new Shopify.OptionSelectors('product-select-' + theme.product.id, {
+      product: theme.product.json,
+      onVariantSelected: selectCallback,
+      enableHistoryState: true
+    });
+  });
+
+</script>
+
+{% schema %}
+{
+  "name": "Product page",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "position-title-above",
+      "label": "Position title in featured image panel",
+      "default": true,
+      "info": "For screens larger than 1024px wide"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable-modal",
+      "label": "Enable image zoom",
+      "default": true,
+      "info": "Opens when clicking featured product image"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide-variant-images",
+      "label": "Hide variant images",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show-mailing-list",
+      "label": "Show mailing list form",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show-related-collection",
+      "label": "Show related collection",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

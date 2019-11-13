@@ -1,0 +1,413 @@
+{% assign product = all_products[section.settings.product] %}
+
+{% if product.handle.size > 0 %}
+
+  {% assign image_list = '' %}
+
+  {% for image in product.images %}
+    {% assign show_image = true %}
+    {% if section.settings.hide-variant-images and forloop.index0 != 0 %}
+      {% for variant in product.variants %}
+
+        {% if variant.image.src == image.src %}
+          {% assign show_image = false %}
+        {% endif %}
+
+      {% endfor %}
+    {% endif %}
+
+    {% if show_image %}
+      {% assign image_list = image_list | append: forloop.index0 | append: "," %}
+    {% endif %}
+  {% endfor %}
+
+  {% assign image_indexes = image_list | split: ',' %}
+  {% assign image_count = image_indexes.size %}
+
+  <div
+    class="template--index--product fullscreen-panel"
+    data-js-class="IndexProduct"
+    data-section-id="{{ section.id }}"
+    data-section-type="index_product"
+  >
+    <div class="container full-height">
+      <div
+        class="fw--slider"
+        data-js-class="FrameworkSlider"
+        data-navigation="true"
+        data-pagination="false"
+        data-pagination-numbers="false"
+      >
+
+        {% comment %} Slide #1 {% endcomment %}
+        <div class="slide">
+
+          <div class="show--medium-large fw--blocks">
+            <div class="block width--medium-6 text-align--center">
+              {% if image_count > 0 %}
+                {% assign current_index = image_indexes[0] | times: 1 %}
+                {% assign image = product.images[current_index] %}
+                <a href="{{ product.url }}">
+                  <img
+                    class="fw--align--center-y"
+                    src="{{ image.src | product_img_url: '1024x1024' }}"
+                    rel="gallery"
+                    data-image-id="{{ image.id }}"
+                  >
+                </a>
+              {% endif %}
+            </div>
+            <div class="text-panel block text-align--center width--medium-6">
+              <div class="wrapper fw--align--center-y partial--product">
+                <h2 class="title spacing--3y font--heading">{{ product.title }}</h2>
+
+                <p
+                 class="price font--accent font--subheading--size"
+                 itemprop="offers"
+                 itemscope itemtype="http://schema.org/Offer"
+                >
+                  {% assign variant = product.selected_or_first_available_variant %}
+
+                  {% if product.price > 0 %}
+                    <span class="compare-price money">{% if product.compare_at_price > product.price and product.available %}{{ product.compare_at_price | money }}{% endif %}</span>
+                    <span class="actual-price money">{{ product.price | money }}</span>
+                  {% endif %}
+
+                  {% if product.available == false %}
+                    <span class="sold-out">{{ 'collections.sold_out_html' | t }}</span>
+                  {% endif %}
+                </p>
+                <a class="button" href="{{ product.url }}">{{ 'home.view_product' | t }}</a>
+
+              </div>
+            </div>
+          </div>
+
+
+          <div class="fw--blocks show--small">
+            <div class="text-align--center fw--align--fill-y--dynamic">
+              {% if image_count > 0 %}
+                {% assign image = product.images[current_index] %}
+                <a href="{{ product.url }}">
+                  <img
+                    src="{{ image.src | product_img_url: '1024x1024' }}"
+                    rel="gallery"
+                    data-image-id="{{ image.id }}"
+                  >
+                </a>
+              {% endif %}
+            </div>
+
+            <div class="text-panel text-align--center fw--align--bottom fw--align--fill-y--fixed">
+              <div class="wrapper partial--product">
+                <h2 class="title spacing--3y font--heading">{{ product.title }}</h2>
+                <p
+                  class="price font--accent font--subheading--size"
+                  itemprop="offers"
+                  itemscope
+                  itemtype="http://schema.org/Offer"
+                >
+                  {% assign variant = product.selected_or_first_available_variant %}
+                  <span class="compare-price money">{% if product.compare_at_price > product.price and product.available %}{{ product.compare_at_price | money }}{% endif %}</span>
+                  <span class="actual-price money">{{ product.price | money }}</span>
+
+                  {% if product.available == false %}
+                    <span class="sold-out">{{ 'collections.sold_out_html' | t }}</span>
+                  {% endif %}
+                </p>
+                <a class="button" href="{{ product.url }}">{{ 'home.view_product' | t }}</a>
+
+              </div>
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+
+        {% comment %} Slide #2 {% endcomment %}
+        <div class="slide">
+
+          <div class="fw--blocks show--medium-large">
+            <div class="text-panel block rte-content {% if image_count > 1 %}width--6{% else %}single-text-column{% endif %}">
+              <div class="wrapper fw--align--center-y fw--ellipsis">
+                {% if section.settings.excerpt.size > 0 %}
+                  {{ section.settings.excerpt }}
+                {% else %}
+                  {{ product.description }}
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="block width--6">
+              {% if image_count > 1 %}
+                {% assign current_index = image_indexes[1] | times: 1 %}
+                {% assign image = product.images[current_index] %}
+                <a href="{{ product.url }}">
+                  <img
+                    class="fw--align--center-y"
+                    src="{{ image.src | product_img_url: '1024x1024' }}"
+                    rel="gallery"
+                    data-image-id="{{ image.id }}"
+                  >
+                </a>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="fw--blocks show--small">
+            {% if image_count > 1 %}
+              <div class="text-align--center fw--align--fill-y--dynamic">
+                {% assign image = product.images[current_index] %}
+                <a href="{{ product.url }}">
+                  <img
+                    class="fw--align--center-y"
+                    src="{{ image.src | product_img_url: '1024x1024' }}"
+                    rel="gallery"
+                    data-image-id="{{ image.id }}"
+                  >
+                </a>
+              </div>
+            {% endif %}
+
+            <div class="text-panel text-align--center {% if image_count > 1 %}fw--align--bottom{% else%}single-text-column fw--align--center-y fw--align--fill-y--fixed{% endif %}">
+              {% assign product_description = product.description %}
+              {% if section.settings.excerpt.size > 0 %}
+                {% assign product_description = section.settings.excerpt %}
+              {% endif %}
+
+              {% if image_count > 1 %}
+                {{ product_description | strip_html | strip | truncate: 200 }}
+              {% else %}
+                {{ product_description | strip_html | strip | truncate: 400 }}
+              {% endif %}
+            </div>
+          </div>
+
+        </div>
+
+        {% comment %} Slide #3 {% endcomment %}
+        {% if image_count > 2 %}
+          {% assign current_index = image_indexes[2] | times: 1 %}
+          {% assign image = product.images[current_index] %}
+          <div class="slide text-align--center">
+            <a href="{{ product.url }}">
+              <img
+                class="fw--align--center-y"
+                src="{{ image.src | product_img_url: '1024x1024' }}"
+                rel="gallery"
+                data-image-id="{{ image.id }}"
+              >
+            </a>
+          </div>
+        {% endif %}
+
+        {% comment %} Slide #4 {% endcomment %}
+        {% if image_count > 3 %}
+          {% assign current_index = image_indexes[3] | times: 1 %}
+          {% assign image = product.images[current_index] %}
+          <div class="slide text-align--center">
+            <a href="{{ product.url }}">
+              <img
+                class="fw--align--center-y"
+                src="{{ image.src | product_img_url: '1024x1024' }}"
+                rel="gallery"
+                data-image-id="{{ image.id }}"
+              >
+            </a>
+          </div>
+        {% endif %}
+
+        {% comment %} Slide #5 {% endcomment %}
+        {% if image_count > 4 %}
+          {% assign current_index = image_indexes[4] | times: 1 %}
+          {% assign image = product.images[current_index] %}
+          <div class="slide text-align--center">
+            <a href="{{ product.url }}">
+              <img
+                class="fw--align--center-y"
+                src="{{ image.src | product_img_url: '1024x1024' }}"
+                rel="gallery"
+                data-image-id="{{ image.id }}"
+              >
+            </a>
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+
+
+{% else %} {% comment %} Placeholder {% endcomment %}
+
+ {% capture product_price_compare %}
+   <p
+    class="price font--accent font--subheading--size"
+    itemprop="offers"
+    itemscope itemtype="http://schema.org/Offer"
+   >
+      <span class="compare-price money">
+        {{ 'home.onboarding.featured_product.compare_price' | t }}
+      </span>
+      <span class="actual-price money">
+        {{ 'home.onboarding.featured_product.actual_price' | t }}
+      </span>
+   </p>
+ {% endcapture %}
+
+ {% capture product_title %}
+   <h2 class="title spacing--3y font--heading">
+     {{ 'home.onboarding.featured_product.title' | t }}
+   </h2>
+ {% endcapture %}
+
+ {% capture product_button %}
+   <button class="button">{{ 'home.view_product' | t }}</button>
+ {% endcapture %}
+
+ {% capture product_image_placeholder %}
+   <div class="placeholder-wrapper">
+     {% include "framework--placeholder",
+     type: "product",
+     aspect_ratio: "600x800",
+     placeholder_index: 1 %}
+    </div>
+ {% endcapture %}
+
+  {% capture product_image_placeholder_2 %}
+   <div class="placeholder-wrapper">
+     {% include "framework--placeholder",
+     type: "product",
+     aspect_ratio: "600x800",
+     placeholder_index: 2 %}
+    </div>
+ {% endcapture %}
+
+ {% capture product_description %}
+  {{ 'home.onboarding.featured_product.description' | t }}
+ {% endcapture %}
+
+  <div
+    class="template--index--product fullscreen-panel"
+    data-js-class="IndexProduct"
+    data-section-id="{{ section.id }}"
+    data-section-type="index_product"
+  >
+    <div class="container full-height">
+      <div
+        class="fw--slider"
+        data-js-class="FrameworkSlider"
+        data-navigation="true"
+        data-pagination="false"
+        data-pagination-numbers="false"
+      >
+
+        <div class="slide">
+
+          <div class="show--medium-large fw--blocks">
+            <div class="block width--medium-6 text-align--center">
+              {{ product_image_placeholder }}
+            </div>
+
+            <div class="text-panel block text-align--center width--medium-6">
+              <div class="wrapper fw--align--center-y partial--product">
+                {{ product_title }}
+                {{ product_price_compare }}
+                {{ product_button }}
+              </div>
+            </div>
+          </div>
+
+          <div class="fw--blocks show--small">
+            <div class="text-align--center fw--align--fill-y--dynamic">
+              {{ product_image_placeholder }}
+            </div>
+
+            <div class="text-panel text-align--center fw--align--bottom fw--align--fill-y--fixed">
+              <div class="wrapper partial--product">
+                {{ product_title }}
+                {{ product_price_compare }}
+                {{ product_button }}
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- .slide -->
+        {% comment %}Slide #2 {% endcomment %}
+        <div class="slide">
+
+          <div class="fw--blocks show--medium-large">
+            <div class="text-panel block rte-content width--6">
+              <div class="wrapper fw--align--center-y fw--ellipsis">
+                {{ product_description }}
+              </div>
+            </div>
+
+            <div class="block width--6">
+              {{ product_image_placeholder_2 }}
+            </div>
+          </div>
+
+          <div class="fw--blocks show--small">
+            <div class="text-align--center fw--align--fill-y--dynamic">
+              {{ product_image_placeholder_2 }}
+            </div>
+
+            <div class="text-panel text-align--center fw--align--bottom">
+              {{ product_description }}
+            </div>
+          </div>
+
+        </div>
+
+
+        {% comment %} Slide #3 {% endcomment %}
+        <div class="slide text-align--center">
+         <div class="placeholder-wrapper">
+           {% include "framework--placeholder",
+           type: "product",
+           aspect_ratio: "800x800",
+           placeholder_index: 3 %}
+          </div>
+        </div>
+
+      </div> <!-- .fw--slider -->
+    </div> <!-- .container -->
+  </div> <!-- .fullscreen-panel -->
+
+{% endif %}
+
+{% schema %}
+{
+  "name": "Featured product",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "richtext",
+      "id": "excerpt",
+      "label": "Excerpt text",
+      "default": "<p></p>",
+      "info": "Optional (leave blank to retrieve product description)"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide-variant-images",
+      "label": "Hide variant images",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured product",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}

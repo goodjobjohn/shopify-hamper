@@ -1,0 +1,60 @@
+{% assign google_font_families = '' %}
+{% assign fonts = 'heading, sub-heading, accent, text' %}
+
+{% assign fonts_array = fonts | split: ', ' %}
+{% for font in fonts_array %}
+  {% case font %}
+
+    {% when 'heading' %}
+      {% if advanced--font--heading--google.size > 0 or advanced--font--heading--typekit.size > 0 %}
+        {% assign font_family = advanced--font--heading--google %}
+      {% else %}
+        {% assign font_family = settings.font--heading %}
+      {% endif %}
+
+    {% when 'sub-heading' %}
+      {% if advanced--font--sub-heading--google.size > 0 or advanced--font--sub-heading--typekit.size > 0 %}
+        {% assign font_family = advanced--font--sub-heading--google %}
+      {% else %}
+        {% assign font_family = settings.font--sub-heading %}
+      {% endif %}
+
+    {% when 'accent' %}
+      {% if advanced--font--accent--google.size > 0 or advanced--font--accent--typekit.size > 0 %}
+        {% assign font_family = advanced--font--accent--google %}
+      {% else %}
+        {% assign font_family = settings.font--accent %}
+      {% endif %}
+
+    {% when 'text' %}
+      {% if advanced--font--text--google.size > 0 or advanced--font--text--typekit.size > 0 %}
+        {% assign font_family = advanced--font--text--google %}
+      {% else %}
+        {% assign font_family = settings.font--text %}
+      {% endif %}
+
+  {% endcase %}
+
+  {% assign google_check = font_family | truncate: 6, '' %}
+  {% if google_check == 'google' %}
+    {% assign words = font_family | split: ', ' %}
+    {% assign weight = '400,700' %}
+    {% capture google_font_families %}{{ google_font_families }}'{{ words[1] | replace: "'", "" }}:{{ weight }}', {% endcapture %}
+  {% endif %}
+
+{% endfor %}
+
+
+{% if google_font_families.size > 0 or typekit_enabled %}
+<script>
+  WebFontConfig = {
+    {% if typekit_enabled %}
+    typekit: { id: '{{ advanced--font--typekit-id }}' },
+    {% endif %}
+    {% if google_font_families.size > 0 %}
+    google: { families: [{{ google_font_families }}] }
+    {% endif %}
+  };
+</script>
+<script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+{% endif %}
