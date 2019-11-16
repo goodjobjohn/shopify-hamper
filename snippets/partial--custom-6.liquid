@@ -143,16 +143,14 @@
                 const checkboxes = document.querySelectorAll('input.hamper-checkbox');
                 const savedValuesElement = document.getElementById('savedValues');
                 const numberOfCheckedInputs = $("input.hamper-checkbox").siblings(':checked').length;                
-              
-	            console.log(event.target);
     
               	let i;                
               
               	let wineLimit = 1;
-              	let candleLimit = 1;
+              	// let candleLimit = 1;
               	let otherItemsLimit = 4;
               
-				// prevent default 
+				        // prevent default 
               	// event.preventDefault();              	              	
               
               	// Run limit checks  
@@ -163,25 +161,16 @@
                   if ( wineChecked > wineLimit ) {
                       event.target.checked = false;
                   }              
-            	};
-              	// Check gift - limit 1
-                if ( event.target.classList.contains('gift')) {
-                      const candles = $('input.hamper-checkbox.wine:checked').length;
-                  if ( candles > candleLimit ) {
-                      event.target.checked = false;
-                  }
-                };
+            	};              	
               
-                // Check all other item not wine or candle - limit 4
-              	const itemsChecked = document.querySelectorAll('input.hamper-checkbox.cider:checked, input.hamper-checkbox.beer:checked, input.hamper-checkbox.sweet:checked, input.hamper-checkbox.savoury:checked, input.hamper-checkbox.gift:checked, input.hamper-checkbox.tea:checked').length;
-              	console.log(itemsChecked);
+                // Count checked items (not wine) - limit 4
+              	const itemsChecked = document.querySelectorAll('input.hamper-checkbox.cider:checked, input.hamper-checkbox.beer:checked, input.hamper-checkbox.sweet:checked, input.hamper-checkbox.savoury:checked, input.hamper-checkbox.gift:checked, input.hamper-checkbox.tea:checked, input.hamper-checkbox.candle:checked').length;
+              	
               	if ( itemsChecked > otherItemsLimit ) {
                     event.target.checked = false;
                 };
-              	
-              
-                // Store checkbox values in hidden input tag. 
-              	              	
+              	              
+                // Store checkbox values in hidden input tag.               	              	
                 // reset stored value
                 savedValuesElement.value = ""
                 // Loop through checkboxes
@@ -201,7 +190,7 @@
             };
 
             function hamperLimits() {               
-              	const limit = 6; // hard limit                                
+              	const limit = 5; // hard limit                                
                 
                 // 'Add to cart' button warning
                 $('button.add').click(function(event) {

@@ -26,3 +26,4 @@ Selections are stored in a hidden input and sent with form submission.
 
 - [ ] refactor javascript
 
+15.11 - fixed limits on templates custom 6 and 7

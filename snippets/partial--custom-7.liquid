@@ -136,7 +136,7 @@
             findAndProcessImageURL();
               
 			         
-              
+            // ONCLICK FUNCTION
             // Triggers on input selection              
             function processSelection() {                            	
               
@@ -144,17 +144,13 @@
                 const savedValuesElement = document.getElementById('savedValues');
                 const numberOfCheckedInputs = $("input.hamper-checkbox").siblings(':checked').length;                
               
-	            console.log(event.target);
+	            //console.log(event.target);
     
               	let i;                
               
-              	let wineLimit = 1;
-              	let candleLimit = 1;
+              	let wineLimit = 1;              	
               	let otherItemsLimit = 6;
-              
-				// prevent default 
-              	// event.preventDefault();              	              	
-              
+          	              	
               	// Run limit checks  
               	// Check wine - limit 1
               	if ( event.target.classList.contains('wine')) {                  
@@ -163,26 +159,16 @@
                   if ( wineChecked > wineLimit ) {
                       event.target.checked = false;
                   }              
-            	};
-              	// Check gift - limit 1
-                if ( event.target.classList.contains('gift')) {
-                      const candles = $('input.hamper-checkbox.wine:checked').length;
-                  if ( candles > candleLimit ) {
-                      event.target.checked = false;
-                  }
-                };
+            	};              	
               
                 // Check all other item not wine or candle - limit 4
-              	const itemsChecked = document.querySelectorAll('input.hamper-checkbox.cider:checked, input.hamper-checkbox.beer:checked, input.hamper-checkbox.sweet:checked, input.hamper-checkbox.savoury:checked, input.hamper-checkbox.gift:checked, input.hamper-checkbox.tea:checked').length;
-              	console.log(itemsChecked);
+              	const itemsChecked = document.querySelectorAll('input.hamper-checkbox.cider:checked, input.hamper-checkbox.beer:checked, input.hamper-checkbox.sweet:checked, input.hamper-checkbox.savoury:checked, input.hamper-checkbox.gift:checked, input.hamper-checkbox.tea:checked, input.hamper-checkbox.candle:checked').length;
+              	// console.log(itemsChecked);
               	if ( itemsChecked > otherItemsLimit ) {
                     event.target.checked = false;
                 };
-              	
-              
-                // Store checkbox values in hidden input tag. 
-              	
-              	
+              	              
+                // Store checkbox values in hidden input tag.               	              	
                 savedValuesElement.value = ""
                 // Loop through checkboxes
                 for ( i = 0; i < checkboxes.length; i++ ) {
@@ -197,12 +183,11 @@
                             savedValuesElement.value = savedValuesElement.value + ", " + checkbox.value; 
                         } 
                     }
-                }
-                
+                }                
             };
 
             function hamperLimits() {               
-              	const limit = 8; // hard limit                                
+              	const limit = 7; // hard limit                                
                 
                 // 'Add to cart' button warning
                 $('button.add').click(function(event) {
@@ -216,10 +201,9 @@
                         // add to cart 
                     }        
                 });
-            };
-              
+            };              
             hamperLimits();
-                
+          
             </script>
           </p>
         </div>
