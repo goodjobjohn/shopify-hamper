@@ -1,0 +1,317 @@
+  {% assign view = partial--bag-pick8 %}
+{% include 'advanced-settings' with 'variables' %}
+{% assign has_hover = false %}
+{% if product.images.size > 1 and advanced--collection--hover-image %}
+  {% assign has_hover = true %}
+{% endif %}
+
+{% if view == 'product-page' %}
+
+  <div class="partial--product view--full" data-view="product-page" itemscope itemtype="http://schema.org/Product" data-handle="{{ product.handle }}" data-id="{{ product.id }}" data-variants-size="{{ product.variants.size }}">
+    <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
+    <meta itemprop="name" content="{{ product.title }}" />
+    <meta itemprop="image" content="{{ product.featured_image.src | product_img_url: 'grande' }}" />
+    <script>theme.product_json[{{ product.id }}] = {{ product | json }}; </script>
+
+    <div class="details">
+
+      <form class="add-to-cart {% unless product.variants.size > 1 %}no-variants{% endunless %}" action="/cart/add" method="post" enctype="multipart/form-data">
+        <div class="left-side">
+
+          <div class="title-below">
+            <div class="spacing--3x show--small-medium"><a class="title" href="{{ product.url }}"><h1 class="font--heading">{{ product.title }}</h1></a></div>
+
+            {% unless section.settings.position-title-above %}
+              <div class="spacing--3x show--large"><a class="title" href="{{ product.url }}"><h1 class="font--heading">{{ product.title }}</h1></a></div>
+            {% endunless %}
+          </div>
+
+          <span class="selector-toggle {% unless product.variants.size > 1 %}hide-for-all{% endunless %}">
+            <select name="id" id="product-select-{{ product.id }}">
+              {% for variant in product.variants %}
+                <option data-sku="{{ variant.sku }}" {% if variant.inventory_quantity <= 0 and variant.available == false %}DISABLED {% endif %}{% if variant == product.selected_or_first_available_variant %}selected="selected" {% endif %} value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+              {% endfor %}
+            </select>
+          </span>
+
+          {% assign variant = product.selected_or_first_available_variant %}
+
+          <span class="{% unless product.available %} disabled{% endunless %}">
+            <input type="hidden" name="quantity" value="1">
+          </span>
+        </div>
+
+        <div class="right-side fw--align--right add-hamper">
+          {% if product.available == false %}
+            <span class="sold-out font--accent font--subheading--size color--important">{{ 'collections.sold_out_html' | t }}</span>
+          {% endif %}
+
+          <span class="{% unless product.available %} disabled{% endunless %}"> 
+            <span class="price font--accent font--subheading--size" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+              <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+              {% if product.available %}
+                <link itemprop="availability" href="http://schema.org/InStock" />
+              {% else %}
+                <link itemprop="availability" href="http://schema.org/OutOfStock" />
+              {% endif %}
+
+              {% if product.price > 0 %}
+                <span class="compare-price money">{% if product.compare_at_price > product.price and product.available %}{{ product.compare_at_price | money }}{% endif %}</span>
+                <span class="actual-price money" itemprop="price">{{ product.price | money }}</span>
+              {% endif %}
+            </span>
+
+            {% if template contains 'kickstarter' %}
+              <a href="{{ settings.social--kickstarter--url }}" class="button"><span class="text">{{ 'products.back_on_kickstarter' | t }}</span></a>
+            {% else %}
+              <button class="add button" type="submit" name="add" id="add"><span class="text">{{ 'products.add_to_cart' | t }}</span><span class="fw--loading_animation tiny"></span></button>
+            {% endif %}
+
+          </span>
+        </div>
+
+        <div class="hamper">
+          
+          <div class="block text text-align--left">
+            <div class="description rte-content" itemprop="description">
+              {{ product.description }}                          
+            </div>
+          </div>
+          
+          <div class="spacing--5y fw--blocks">
+            <div class="column left-side width--6">
+              <label>INSTRUCTIONS</label><br>
+              <ol>                
+                <li>Click on an image to select the item you wish to add to your hamper.</li>
+                <li>When all selections have been made, click ‘Add to Cart’.</li>
+                <li>Checkout, and we’ll do the rest. Happy days.</li>
+              </ol>
+            </div>
+          </div>
+	
+          <p class="custom-hamper">                    
+            {% for image in product.images %}
+              {% assign skip_image = false %}
+
+              {% if forloop.first %}
+                {% assign skip_image = true %}
+              {% endif %}
+
+              {% if skip_image %}
+                {% continue %}
+              {% endif %}
+
+              <input type="checkbox" class="hamper-checkbox" id="Option-{% increment id %}" hidden-data="Your-name" onchange="fillHidden('Your-name')" value="{{ image.alt | escape }}">
+              <label for="Option-{% increment label %}" style="background-image: url({{ image.src | product_img_url: 'master' }}">
+                <span class="name">{{ image.src | product_img_url: 'master' }}</span>
+                <span class="checkmark"></span>
+              </label><br>
+            {% endfor %}
+            
+            
+            <input type="hidden" id="Your-name" name="properties[Your choices]">
+            <div id="log"></div>
+            <script>
+              /* 
+               * Create an array from the hamper item url's
+               * loop through and use the images file name (they 
+               * contain name and category). Replace the inn html with the correct values.
+               */
+              function findAndProcessImageURL(){
+                  // create array with all hamper items urls
+                  const elements = document.querySelectorAll('span.name');
+                  // loop through array with hamper items
+                  for (i = 0; i < elements.length; i++) {
+                      const element = elements[i];
+                      const fileName = element.innerHTML;
+                      // split string into array of substrings ussing a 'xxxx' pattern
+                      const split = fileName.split('xxxx');
+                      // category
+                      const category = split[1];
+                      // title
+                      const _title = split[2];
+                      // replace underscore in the title string with a space
+                      const title = _title.split('_').join(' ');
+                      
+                      element.innerHTML = title;
+                      element.classList.add(category);
+                      element.parentElement.previousElementSibling.value = title;                                        
+                  }
+              };
+              findAndProcessImageURL();
+
+              /**
+               * There is a hidden input field on the page that 
+               * this function adds the selected items to.
+               */
+
+              function fillHidden(hiddenname) {
+                var checkboxes = document.querySelectorAll('[hidden-data="'+hiddenname+'"]');
+                var hiddenfield = document.getElementById(hiddenname);
+                var checked = $("input.hamper-checkbox").siblings(':checked').length;
+                
+                var i;
+                const limits = 8;
+
+                // Store checkbox values in hidden input tag.              
+                if ( checked <= limits ) {
+                    hiddenfield.value = ""
+                    for ( i = 0; i < checkboxes.length; i++ ) {
+                        var x = checkboxes[i];
+                        if ( x.checked ) {
+                            if ( hiddenfield.value=="" ) {
+                                hiddenfield.value = x.value;
+                            } else {
+                                hiddenfield.value = hiddenfield.value + ", " + x.value; 
+                            } 
+                        }
+                    }
+                }
+              };
+
+              /**
+               * Set limits for items and corresponding categories.
+               */
+
+              function hamperLimits() {
+                  const limit = 8; // hard limit
+                  
+                  // Limit the number of items that can be checked
+                  $('input.hamper-checkbox').on('change', function(evt) {
+                      if($(this).siblings(':checked').length >= limit) {
+                          this.checked = false;                                                      
+                      }                
+                  });
+                  
+                  // 'Add to cart' button warning
+                  $('button.add').click(function(event) {
+                      var checkedTotal = $("input.hamper-checkbox:checked").length;           
+                      
+                      // Disables 'Add to Cart' button when criteria not reached.               
+                      if(checkedTotal < limit){ 
+                          event.preventDefault();
+                          alert("You have only selected " + checkedTotal + " items, please select the correct amount.")
+                      } else {
+                          // add to cart 
+                      }        
+                  })
+              };
+              hamperLimits();                
+            </script>
+          </p>
+        </div>
+      </form>
+
+      {% include 'partial--product--unavailable' %}
+
+    </div>
+  </div>
+
+{% elsif view == 'featured' %}
+
+  <div class="partial--product view--list fw--blocks{% if has_hover %} has-hover{% endif %}" data-view="list" data-handle="{{ product.handle }}" data-id="{{ product.id }}" data-variants-size="{{ product.variants.size }}">
+    <div class="width--medium-6 width--small-12 image-container spacing--5">
+      <a href="{{ product.url | within: collection }}">
+        {% if has_hover %}
+          <img src="{{ product.images[1] | product_img_url: 'grande' }}" alt="{{ product.images[1].alt | escape }}" class="hover-image fw--align--center" />
+        {% endif %}
+
+        <img src="{{ product.featured_image.src | product_img_url: 'grande' }}" alt="{{ product.featured_image.alt | escape }}" />
+      </a>
+    </div>
+
+    <div class="width--medium-6 width--small-12 details spacing--4 spacing--5">
+      <a href="{{ product.url }}"><h2 class="title font--heading">{{ product.title }}</h2></a>
+
+      {% if section.settings.show-vendor %}
+        {% assign product_vendor_handle = product.vendor | handle %}
+        {% if collections[product_vendor_handle].handle == product_vendor_handle %}
+          {% assign vendor_url = collections[product_vendor_handle].url %}
+        {% else %}
+          {% assign vendor_url = product.vendor | url_for_vendor %}
+        {% endif %}
+        <div class="spacer spacing--1y"></div>
+        <p class="vendor">{{ product.vendor | link_to: vendor_url }}</p>
+      {% endif %}
+
+
+      <p class="price font--accent spacing--3y font--subheading--size">
+        {% assign variant = product.selected_or_first_available_variant %}
+        {% if product.price > 0 %}
+          <span class="compare-price money">{% if product.compare_at_price > product.price and product.available %}{{ product.compare_at_price | money }}{% endif %}</span>
+          <span class="actual-price money">{{ product.price | money }}</span>
+        {% endif %}
+        {% if product.available == false %}
+          <span class="sold-out font--accent">{{ 'collections.sold_out_html' | t }}</span>
+        {% endif %}
+      </p>
+
+      <div class="description rte-content">{{ product.description }}</div>
+      <div class="spacer spacing--3y"></div>
+      <a class="button" href="{{ product.url | within: collection }}">{{ 'products.more_details' | t }}</a>
+
+    </div>
+  </div>
+
+
+{% else %} {% comment %} Grid or Collage View{% endcomment %}
+
+
+  <div class="partial--product view--{{ view }} index--{{ odd_or_even }}{% if has_hover %} has-hover{% endif %}" data-view="{{ view }}">
+
+    <a class="image-wrapper show--small {% if odd_or_even == 'odd' %}show--medium-large{% endif %}" href="{{ product.url | within: collection  }}" title="{{ product.title }}">
+      {% if has_hover %}
+        <img src="{{ product.images[1] | product_img_url: 'grande' }}" alt="{{ product.images[1].alt | escape }}" class="hover-image fw--align--center" />
+      {% endif %}
+
+      <img src="{{ product.featured_image.src | product_img_url: 'grande' }}" alt="{{ product.featured_image.alt | escape }}" />
+      </a>
+
+
+      <div class="caption">
+        <a href="{{ product.url | within: collection  }}" title="{{ product.title }}">
+          <h2 class="title font--subheading">
+            {{ product.title }}
+          </h2>
+        </a>
+
+        {% if section.settings.show-vendor %}
+          {% assign product_vendor_handle = product.vendor | handle %}
+          {% if collections[product_vendor_handle].handle == product_vendor_handle %}
+            {% assign vendor_url = collections[product_vendor_handle].url %}
+          {% else %}
+            {% assign vendor_url = product.vendor | url_for_vendor %}
+          {% endif %}
+          <p class="vendor">{{ product.vendor | link_to: vendor_url }}</p>
+        {% endif %}
+
+        <a href="{{ product.url | within: collection  }}" title="{{ product.title }}">
+          <p class="price font--accent">
+            {% if product.price > 0 %}
+              {% if product.compare_at_price > product.price and product.available %}
+                <span class="compare-price money">{{ product.compare_at_price | money }}</span>
+                <span class="actual-price money">{{ product.price | money }}</span>
+              {% else %}
+                {% if product.price_varies %}{{ 'collections.from' | t }}{% endif %} <span class="actual-price money">{{ product.price | money }}</span>
+              {% endif %}
+            {% endif %}
+
+            {% if product.available == false %}
+              <span class="sold-out font--accent">{{ 'collections.sold_out_html' | t }}</span>
+            {% endif %}
+          </p>
+        </a>
+      </div>
+
+      {% if odd_or_even == 'even' %}
+        <a class="show--medium-large" href="{{ product.url | within: collection  }}" title="{{ product.title }}">
+          {% if has_hover %}
+            <img src="{{ product.images[1] | product_img_url: 'grande' }}" alt="{{ product.images[1].alt | escape }}" class="hover-image fw--align--center" />
+          {% endif %}
+
+          <img src="{{ product.featured_image.src | product_img_url: 'grande' }}" alt="{{ product.featured_image.alt | escape }}" />
+        </a>
+      {% endif %}
+
+  </div>
+{% endif %}
