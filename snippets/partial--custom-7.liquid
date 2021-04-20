@@ -162,7 +162,7 @@
             	};              	
               
                 // Check all other item not wine or candle - limit 4
-              	const itemsChecked = document.querySelectorAll('input.hamper-checkbox.cider:checked, input.hamper-checkbox.beer:checked, input.hamper-checkbox.sweet:checked, input.hamper-checkbox.savoury:checked, input.hamper-checkbox.gift:checked, input.hamper-checkbox.tea:checked, input.hamper-checkbox.candle:checked').length;
+              	const itemsChecked = document.querySelectorAll('input.hamper-checkbox.cider:checked, input.hamper-checkbox.beer:checked, input.hamper-checkbox.sweet:checked, input.hamper-checkbox.savoury:checked, input.hamper-checkbox.gift:checked, input.hamper-checkbox.tea:checked, input.hamper-checkbox.candle:checked, input.hamper-checkbox.bath:checked').length;
               	// console.log(itemsChecked);
               	if ( itemsChecked > otherItemsLimit ) {
                     event.target.checked = false;
