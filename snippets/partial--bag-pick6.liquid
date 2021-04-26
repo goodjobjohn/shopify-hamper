@@ -1,4 +1,4 @@
-{% assign view = partial--bag-pick5 %}
+{% assign view = partial--bag-pick6 %}
 {% include 'advanced-settings' with 'variables' %}
 {% assign has_hover = false %}
 {% if product.images.size > 1 and advanced--collection--hover-image %}
@@ -151,7 +151,7 @@
                 var checked = $("input.hamper-checkbox").siblings(':checked').length;
                 
                 var i;
-                const limits = 5;
+                const limits = 6;
 
                 // Store checkbox values in hidden input tag.              
                 if ( checked <= limits ) {
@@ -174,7 +174,7 @@
                */
 
               function hamperLimits() {
-                  const limit = 5; // hard limit
+                  const limit = 6; // hard limit
                   
                   // Limit the number of items that can be checked
                   $('input.hamper-checkbox').on('change', function(evt) {
